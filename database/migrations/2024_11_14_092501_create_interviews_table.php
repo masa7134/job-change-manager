@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('interviews', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('application_id')->constrained('applications')->onDelete('cascade');
             $table->enum('preparation_status', ['未対策', '対策済'])->default('未対策');
             $table->enum('round', [0, 1, 2, 3, 4])->nullable();
