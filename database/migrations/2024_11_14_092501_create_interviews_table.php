@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('interviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('application_id')->constrained('applications')->onDelete('cascade');
-            $table->enum('preparation_status', ['未対策', '対策済'])->default('未対策');
-            $table->enum('round', [0, 1, 2, 3, 4])->nullable();
+            $table->tinyInteger('interview_round')->nullable();
+            $table->tinyInteger('interview_status')->default(0);
+            $table->date('interview_date')->nullable();
+            $table->tinyInteger('preparation_status')->default(0);
             $table->text('content')->nullable();
-            $table->date('date')->nullable();
-            $table->enum('status', ['予定日', '実施済'])->default('予定日');
             $table->timestamps();
         });
     }

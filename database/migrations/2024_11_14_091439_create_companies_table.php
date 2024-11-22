@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('work_hours', 50)->nullable();
             $table->string('work_location')->nullable();
             $table->text('first_assignment')->nullable();
-            $table->enum('status', ['進行中', '内定', '不採用'])->default('進行中');
+            $table->tinyInteger('status')->default(0);// Status Enumの保存用
             $table->timestamps();
         });
     }

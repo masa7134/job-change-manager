@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
-            $table->enum('resume_status', ['未作成', '作成済'])->default('未作成');
-            $table->enum('work_history_status', ['未作成', '作成済'])->default('未作成');
-            $table->enum('entry_form_status', ['未入力', '入力済', '非該当'])->default('未入力');
-            $table->enum('application_status', ['未提出', '提出済'])->default('未提出');
+            $table->tinyInteger('resume_status')->default(0);
+            $table->tinyInteger('work_history_status')->default(0);
+            $table->tinyInteger('entry_form_status')->default(0);
+            $table->tinyInteger('application_status')->default(0);
             $table->timestamps();
         });
     }
