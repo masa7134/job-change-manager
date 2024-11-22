@@ -25,7 +25,7 @@ class Company extends Model
 
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasOne(Application::class);
     }
 
     // // APIからのデータ自動入力時にstatusをEnumとして適用
@@ -40,21 +40,12 @@ class Company extends Model
     //     return self::create($data);
     // }
 
-    //Enum値を取得
-    public function getStatusAttribute($value)
+      // Enumのテキスト表現を取得
+    public function getEnumText(string $column)
     {
-        return Status::fromValue($value); // Enum値として返す
-    }
-
-    // Enum値を保存する際にStatusを保存
-    public function setStatusAttribute(Status $status)
-    {
-        $this->attributes['status'] = $status->value;// Enumの値を保存
-    }
-
-      // ステータスのテキスト表現を取得
-    public function getStatusTextAttribute()
-    {
-        return $this->status->text();// Enumのテキストを返す
+        if (!isset($this->casts[$column]) || !method_exists($this->{$column}, 'text')) {
+            throw new \InvalidArgumentException("Invalid Enum column: $column");
+        }
+        return $this->{$column}->text();// Enumのテキストを返す
     }
 }
