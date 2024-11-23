@@ -18,14 +18,14 @@ class Application extends Model
         'resume_status',
         'work_history_status',
         'entry_form_status',
-        'application_status'
+        'application_status',
     ];
 
     protected $casts = [
         'resume_status' => ResumeStatus::class,
         'work_history_status' => WorkHistoryStatus::class,
         'entry_form_status' => EntryFormStatus::class,
-        'application_status' => ApplicationStatus::class
+        'application_status' => ApplicationStatus::class,
     ];
 
     // Companyとのリレーション

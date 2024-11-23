@@ -16,7 +16,7 @@ class Interview extends Model
         'application_id',
         'interview_round',
         'interview_status',
-        'preparation_status'
+        'preparation_status',
     ];
 
     protected $casts = [

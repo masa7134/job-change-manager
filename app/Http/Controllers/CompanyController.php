@@ -11,8 +11,11 @@ class CompanyController extends Controller
     //企業一覧表示
     public function index()
     {
-        $companies = Company::all();
-        return view('companies.index', compact('companies'));
+        $companies = Company::where('status', '進行中')
+        ->where('user_id', auth()->id())
+        ->get();
+
+        return view('dashboard', compact('companies'));
     }
 
     //新規企業作成フォーム表示
@@ -30,9 +33,12 @@ class CompanyController extends Controller
     }
 
     //企業詳細表示
-    public function show(int $id)
+    public function show($id)
     {
-        $company = Company::findOrFail($id);
+        $company = Company::where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
+
         return view('companies.show', compact('company'));
     }
 
@@ -61,10 +67,18 @@ class CompanyController extends Controller
         return redirect()->route('companies.index')->with('success', '企業情報が削除されました。');
     }
 
+    //すべての企業を表示
+    public function allCompanies()
+    {
+        $companies = Company::where('user_id', auth()->id())->get();
+
+        return view('companies.all', compact('companies'));
+    }
+
     //外部APIリクエストを送信してデータを取得する処理
     public function fetchCompanyDataFromApi(string $query)
     {
         // APIエンドポイント（例: 国税庁法人番号API）
-        
+
     }
 }
