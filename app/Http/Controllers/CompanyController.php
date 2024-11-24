@@ -21,7 +21,7 @@ class CompanyController extends Controller
     //新規企業作成フォーム表示
     public function create()
     {
-        return view('companies.create');
+        return view('company.create');
     }
 
     //企業データ保存
@@ -29,24 +29,23 @@ class CompanyController extends Controller
     {
         $company = Company::create($request->validated());
 
-        return redirect()->route('companies.index')->with('success', '企業情報が登録されました。');
+        return redirect()->route('company.index')->with('success', '企業情報が登録されました。');
     }
 
     //企業詳細表示
     public function show($id)
     {
         $company = Company::where('id', $id)
-        ->where('user_id', auth()->id())
         ->firstOrFail();
 
-        return view('companies.show', compact('company'));
+        return view('company.show', compact('company'));
     }
 
     //企業編集フォーム表示
     public function edit(int $id)
     {
         $company = Company::findOrFail($id);
-        return view('companies.edit', compact('company'));
+        return view('company.edit', compact('company'));
     }
 
     //企業情報更新
@@ -55,7 +54,7 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $company->update($request->validated());
 
-        return redirect()->route('companies.index')->with('success', '企業情報が更新されました。');
+        return redirect()->route('company.index')->with('success', '企業情報が更新されました。');
     }
 
     //企業削除
@@ -64,15 +63,15 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $company->delete();
 
-        return redirect()->route('companies.index')->with('success', '企業情報が削除されました。');
+        return redirect()->route('company.index')->with('success', '企業情報が削除されました。');
     }
 
     //すべての企業を表示
-    public function allCompanies()
+    public function getAllCompanies()
     {
         $companies = Company::where('user_id', auth()->id())->get();
 
-        return view('companies.all', compact('companies'));
+        return view('company.all', compact('companies'));
     }
 
     //外部APIリクエストを送信してデータを取得する処理
