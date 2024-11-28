@@ -40,6 +40,17 @@ class Application extends Model
         return $this->hasMany(Interview::class);
     }
 
+    //ステータスのインスタンスを取得
+    public static function getStatuses()
+    {
+        return [
+            'resume' => ResumeStatus::getInstances(),
+            'work_history' => WorkHistoryStatus::getInstances(),
+            'entry_form' => EntryFormStatus::getInstances(),
+            'application' => ApplicationStatus::getInstances(),
+        ];
+    }
+
     // Enumのテキスト表現を取得
     public function getEnumText(string $column)
     {

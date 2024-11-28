@@ -27,4 +27,12 @@ final class InterviewStatus extends Enum
             self::Implemented   => '実施済',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this->value) {
+            self::ScheduledDate    => 'text-red-500',
+            self::Implemented   => 'text-blue-500',
+        };
+    }
 }

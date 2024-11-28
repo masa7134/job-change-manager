@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CompanySeeder::class,  // CompanySeederを実行
+            ApplicationSeeder::class,
+            InterviewSeeder::class,  
         ]);
 
         // User::factory(10)->create();

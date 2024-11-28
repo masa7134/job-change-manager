@@ -29,5 +29,14 @@ final class Status extends Enum
             self::UnofficialOffer   => '内定',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this->value) {
+            self::InProgress    => 'text-red-500',
+            self::Rejected   => 'text-gray-900',
+            self::UnofficialOffer   => 'text-blue-500',
+        };
+    }
 }
 
