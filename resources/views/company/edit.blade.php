@@ -9,7 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <form action="{{ route('company.update', $company->id )}}" method="POST" enctype="multipart/form-data" id="company-form">
                 @csrf
-                @method('patch')
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     {{-- 企業名 --}}
                     <div class="p-6 text-gray-900">
@@ -31,6 +30,22 @@
                             </select>
                         </h2>
                     </div>
+                    {{-- セッションデータ --}}
+                    @if (session('success'))
+                        <div class="alert alert-success text-center">
+                            {{ session('success')}}
+                        </div>
+                    @endif
+                    {{-- バリデーションメッセージ --}}
+                    @if ($errors->any())
+                        <div class="alert alert-danger text-center text-red-500">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     {{-- url --}}
                     <div class="mb-4 flex gap-4">
                         <div class="font-semibold">URL:</div>
@@ -97,9 +112,9 @@
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['resume'] as $status)
                                 <option value="{{ $status->value }}"
-                                class="{{ $status->color()}}"
-                                {{ $company->application->resume_status->value === $status->value ? 'selected' : '' }}>
-                                    {{ $status->text() }}
+                                    class="{{ $status->color()}}"
+                                    {{ $company->application->resume_status->value === $status->value ? 'selected' : '' }}>
+                                        {{ $status->text() }}
                                 </option>
                             @endforeach
                         </select>
@@ -111,8 +126,8 @@
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['work_history'] as $status)
                                 <option value="{{ $status->value }}"
-                                class="{{ $status->color() }}"
-                                {{ $company->application->work_history_status->value === $status->value ? 'selected' : '' }}>
+                                    class="{{ $status->color() }}"
+                                    {{ $company->application->work_history_status->value === $status->value ? 'selected' : '' }}>
                                         {{ $status->text() }}
                                 </option>
                             @endforeach
@@ -125,8 +140,8 @@
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['entry_form'] as $status)
                                 <option value="{{ $status->value }}"
-                                class="{{ $status->color() }}"
-                                {{ $company->application->entry_form_status->value === $status->value ? 'selected' : '' }}>
+                                    class="{{ $status->color() }}"
+                                    {{ $company->application->entry_form_status->value === $status->value ? 'selected' : '' }}>
                                         {{ $status->text() }}
                                 </option>
                             @endforeach
@@ -139,8 +154,8 @@
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['application'] as $status)
                                 <option value="{{ $status->value }}"
-                                class="{{ $status->color() }}"
-                                {{ $company->application->application_status->value === $status->value ? 'selected' : '' }}>
+                                    class="{{ $status->color() }}"
+                                    {{ $company->application->application_status->value === $status->value ? 'selected' : '' }}>
                                         {{ $status->text() }}
                                 </option>
                             @endforeach
@@ -148,7 +163,7 @@
                     </div>
                     {{-- カジュアル面談 --}}
                     <div class="mb-4 flex items-center gap-4">
-                        <a href="{{ route('interview.show', ['company' => $company->id, 'interview' => 'casual'] )}}"
+                        <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => 'casual'] )}}"
                         class='font-semibold text-blue-500 hover:underline'>
                             カジュアル面談:
                         </a>

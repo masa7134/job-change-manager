@@ -37,6 +37,14 @@ class CompanyController extends Controller
     //企業詳細表示
     public function show($id)
     {
+        $company = Company::findOrFail($id);
+
+        return view('company.show', compact('company'));
+    }
+
+    //企業編集フォーム表示
+    public function edit(int $id)
+    {
         $company = Company::where('id', $id)
         ->with('application.interviews')
         ->firstOrFail();
@@ -45,14 +53,7 @@ class CompanyController extends Controller
         $applicationStatuses = Application::getStatuses();
         $interviewStatuses = Interview::getStatuses();
 
-        return view('company.show', compact('company', 'statuses', 'applicationStatuses', 'interviewStatuses'));
-    }
-
-    //企業編集フォーム表示
-    public function edit(int $id)
-    {
-        $company = Company::findOrFail($id);
-        return view('company.edit', compact('company'));
+        return view('company.edit', compact('company', 'statuses', 'applicationStatuses', 'interviewStatuses'));
     }
 
     //企業情報更新
@@ -69,7 +70,7 @@ class CompanyController extends Controller
             'application_status' => $request->application_status,
         ]);
 
-        return redirect()->route('company.show', $company->id)->with('success', '企業情報が更新されました。');
+        return redirect()->route('company.edit', $company->id)->with('success', '企業情報が更新されました。');
     }
 
     //企業削除

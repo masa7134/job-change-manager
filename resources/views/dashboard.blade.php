@@ -18,7 +18,7 @@
                             @foreach ($companies as $company)
                                 <li class="border-b pb-4">
                                     <div class="flex items-center justify-between">
-                                        <a href="{{ route('company.show', $company->id)}}" class="text-sm text-blue-600 hover:underline">{{ $company->name }}</a>
+                                        <a href="{{ route('company.edit', $company->id)}}" class="text-sm text-blue-600 hover:underline">{{ $company->name }}</a>
                                     </div>
                                 </li>
                             @endforeach

@@ -35,7 +35,7 @@ class InterviewController extends Controller
      */
     public function show(string $id)
     {
-        return view('interview.show');
+        //
     }
 
     /**
@@ -43,7 +43,7 @@ class InterviewController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('interview.edit');
     }
 
     /**

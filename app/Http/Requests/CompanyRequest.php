@@ -40,36 +40,28 @@ class CompanyRequest extends FormRequest
      *
      * @return array
      */
+    public function attributes(): array
+    {
+        return [
+            'address' => '住所',
+            'phone_number' => '電話番号',
+            'email' => 'メールアドレス',
+            'corporate_philosophy' => '企業理念',
+            'ceo_message' => '代表者の言葉',
+            'salary' => '給料',
+            'job_type' => '職種',
+            'work_hours' => '勤務時間',
+            'work_location' => '勤務地',
+            'first_assignment' => '入社後最初の業務',
+        ];
+    }
+
     public function messages(): array
     {
         return [
-            'address.string' => '住所は文字列でなければなりません。',
-            'address.max' => '住所は最大255文字までです。',
-
-            'phone_number.string' => '電話番号は文字列でなければなりません。',
-            'phone_number.max' => '電話番号は最大20文字までです。',
-
-            'email.email' => 'メールアドレスは正しい形式で入力してください。',
-            'email.max' => 'メールアドレスは最大100文字までです。',
-
-            'corporate_philosophy.string' => '企業理念は文字列でなければなりません。',
-
-            'ceo_message.string' => '代表者の言葉は文字列でなければなりません。',
-
-            'salary.string' => '給料は文字列でなければなりません。',
-            'salary.max' => '給料は最大50文字までです。',
-
-            'job_type.string' => '職種は文字列でなければなりません。',
-            'job_type.max' => '職種は最大100文字までです。',
-
-            'work_hours.string' => '勤務時間は文字列でなければなりません。',
-            'work_hours.max' => '勤務時間は最大50文字までです。',
-
-            'work_location.string' => '勤務地は文字列でなければなりません。',
-            'work_location.max' => '勤務地は最大255文字までです。',
-
-            'first_assignment.string' => '初回配属先は文字列でなければなりません。',
-            'first_assignment.max' => '初回配属先は最大255文字までです。',
+            '*.string' => ':attribute は文字列でなければなりません。',
+            '*.max' => ':attribute は最大 :max 文字までです。',
+            'email.email' => ':attribute は正しい形式で入力してください。'
         ];
     }
 }
