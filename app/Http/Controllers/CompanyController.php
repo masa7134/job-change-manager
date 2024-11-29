@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Application;
+use App\Models\Interview;
 use App\Http\Requests\CompanyRequest; // バリデーション用のリクエストクラス（後述）
 use Illuminate\Http\Request;
 
@@ -35,8 +37,7 @@ class CompanyController extends Controller
     //企業詳細表示
     public function show($id)
     {
-        $company = Company::where('id', $id)
-        ->firstOrFail();
+        $company = Company::findOrFail($id);
 
         return view('company.show', compact('company'));
     }
@@ -44,8 +45,15 @@ class CompanyController extends Controller
     //企業編集フォーム表示
     public function edit(int $id)
     {
-        $company = Company::findOrFail($id);
-        return view('company.edit', compact('company'));
+        $company = Company::where('id', $id)
+        ->with('application.interviews')
+        ->firstOrFail();
+
+        $statuses = Company::getStatuses();
+        $applicationStatuses = Application::getStatuses();
+        $interviewStatuses = Interview::getStatuses();
+
+        return view('company.edit', compact('company', 'statuses', 'applicationStatuses', 'interviewStatuses'));
     }
 
     //企業情報更新
@@ -54,7 +62,15 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $company->update($request->validated());
 
-        return redirect()->route('company.index')->with('success', '企業情報が更新されました。');
+        $application = $company->application;
+        $application->update([
+            'resume_status' => $request->resume_status,
+            'work_history_status' => $request->work_history_status,
+            'entry_form_status' => $request->entry_form_status,
+            'application_status' => $request->application_status,
+        ]);
+
+        return redirect()->route('company.edit', $company->id)->with('success', '企業情報が更新されました。');
     }
 
     //企業削除
@@ -63,7 +79,7 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $company->delete();
 
-        return redirect()->route('company.index')->with('success', '企業情報が削除されました。');
+        return redirect()->route('dashboard')->with('success', '企業情報が削除されました。');
     }
 
     //すべての企業を表示

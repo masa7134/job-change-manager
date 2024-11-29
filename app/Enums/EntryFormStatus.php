@@ -29,4 +29,13 @@ final class EntryFormStatus extends Enum
             self::NotApplicable   => '非該当',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this->value) {
+            self::NotEntered    => 'text-red-500',
+            self::Entered   => 'text-blue-500',
+            self::NotApplicable   => 'text-blue-500',
+        };
+    }
 }

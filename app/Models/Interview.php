@@ -30,6 +30,16 @@ class Interview extends Model
         return $this->belongsTo(Application::class);
     }
 
+    //ステータスのインスタンスを取得
+    public static function getStatuses()
+    {
+        return [
+            'interview_round' => InterviewRound::getInstances(),
+            'interview_status' => InterviewStatus::getInstances(),
+            'preparation_status' => PreparationStatus::getInstances(),
+        ];
+    }
+
     // Enumのテキスト表現を取得
     public function getEnumText(string $column)
     {

@@ -27,4 +27,12 @@ final class ResumeStatus extends Enum
             self::Created   => '作成済',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this->value) {
+            self::NotCreated    => 'text-red-500',
+            self::Created   => 'text-blue-500',
+        };
+    }
 }

@@ -11,7 +11,19 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'url', 'address', 'phone', 'email', 'status',
+        'name',
+        'url',
+        'address',
+        'phone_number',
+        'email',
+        'status',
+        'corporate_philosophy',
+        'ceo_message',
+        'job_type',
+        'salary',
+        'work_hours',
+        'work_location',
+        'first_assignment',
     ];
 
     protected $casts = [
@@ -23,7 +35,7 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function applications()
+    public function application()
     {
         return $this->hasOne(Application::class);
     }
@@ -39,6 +51,12 @@ class Company extends Model
     //     // APIから取得した企業情報をそのまま保存
     //     return self::create($data);
     // }
+
+    //ステータスのインスタンスを取得
+    public static function getStatuses()
+    {
+        return Status::getInstances();
+    }
 
       // Enumのテキスト表現を取得
     public function getEnumText(string $column)

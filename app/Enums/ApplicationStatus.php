@@ -26,4 +26,12 @@ final class ApplicationStatus extends Enum
             self::Submitted   => '提出済',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this->value) {
+            self::NotSubmitted    => 'text-red-500',
+            self::Submitted   => 'text-blue-500',
+        };
+    }
 }
