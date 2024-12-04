@@ -26,4 +26,12 @@ final class PreparationStatus extends Enum
             self::MeasuresTaken   => '対策済',
         };
     }
+
+    public function color(): string
+    {
+        return match ($this->value) {
+            self::NoCountermeasures    => 'text-red-500',
+            self::MeasuresTaken   => 'text-blue-500',
+        };
+    }
 }

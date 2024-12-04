@@ -60,7 +60,9 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, int $id)
     {
         $company = Company::findOrFail($id);
-        $company->update($request->validated());
+        $company->update(array_merge($request->validated(), [
+            'status' => $request->status,
+        ]));
 
         $application = $company->application;
         $application->update([

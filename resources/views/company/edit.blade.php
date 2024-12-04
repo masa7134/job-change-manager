@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="mb-4 font-semibold text-xl text-gray-800 leading-tight">
             {{ __('企業詳細') }}
         </h2>
+        <p class="text-sm text-gray-400 mt-1">
+            <a href="{{ route('dashboard') }}" class="text-gray-500 hover:underline">
+                {{ __('進捗状況にもどる')}}
+            </a>
+        </p>
     </x-slot>
 
     <div class="py-12">
@@ -161,26 +166,67 @@
                             @endforeach
                         </select>
                     </div>
-                    {{-- カジュアル面談 --}}
-                    <div class="mb-4 flex items-center gap-4">
-                        <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => 'casual'] )}}"
-                        class='font-semibold text-blue-500 hover:underline'>
-                            カジュアル面談:
-                        </a>
-                        <div class="font-semibold text-red-500">
-                            未定
-                        </div>
+                    {{-- 面接セクター --}}
+                    <div class="mb-4">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="text-left font-semibold px-4 py-2 border">面接</th>
+                                    <th class="text-left font-semibold px-4 py-2 border">面接日</th>
+                                    <th class="text-left font-semibold px-4 py-2 border">ステータス</th>
+                                    <th class="text-left font-semibold px-4 py-2 border">対策状況</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($company->application->interviews as $interview)
+                                    <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white'}} hover:bg-gray-100 transition-colors">
+                                        <td class="px-4 py-2 border">
+                                            <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => $interview->id] )}}"
+                                                class="mb-4 font-semibold text-gray-400 hover:text-gray-900 hover:underline">
+                                                    {{ $interview['interview_round']->text() }}:
+                                            </a>
+                                        </td>
+                                        <td class="px-4 py-2 border">{{ $interview['interview_date']}}</td>
+                                        <td class="px-4 py-2 border {{ $interview['interview_status']->color() }}">
+                                            {{ $interview['interview_status']->text() }}
+                                        </td>
+                                        <td class="px-4 py-2 border {{ $interview['preparation_status']->color() }}">
+                                            {{ $interview['preparation_status']->text() }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{-- 面接へボタン --}}
+                    <div class="mb-4">
+                        @php
+                            $interviews = $company->application->interviews;
+                            $latestRound = $interviews->max('interview_round');
+                            $nextRound = $latestRound ? $latestRound->value + 1 : 0;
+                        @endphp
+                        @if ($interviews->isEmpty())
+                            <a href="{{ route('interview.create', ['company' => $company->id, 'round' => 0] )}}"
+                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                                    面接へ
+                            </a>
+                        @else
+                            <a href="{{ route('interview.create', ['company' => $company->id, 'round' => $nextRound] )}}"
+                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                                    次の面接へ
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <div class="p-6 flex justify-between">
                     {{-- 更新ボタン --}}
-                    <button type="submit">更新</button>
+                    <button type="submit"class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">更新</button>
                 </form>
-                {{-- 削除ボタン --}}
+                {{-- 削除ボタン, --}}
                 <form action="{{ route('company.destroy', $company->id) }}" method="POST" id="delete-form">
                     @csrf
                     @method('DELETE')
-                    <button type="button" id="delete-button" onclick="confirmDelete()" aria-label="この企業を削除します。">
+                    <button type="button" id="delete-button" onclick="confirmDelete()" aria-label="この企業を削除します。" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
                         削除
                     </button>
                 </div>

@@ -23,7 +23,7 @@ final class InterviewStatus extends Enum
     public function text(): string
     {
         return match ($this->value) {
-            self::ScheduledDate    => '予定日',
+            self::ScheduledDate    => '予定',
             self::Implemented   => '実施済',
         };
     }
