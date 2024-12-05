@@ -12,6 +12,7 @@ class Company extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
         'url',
         'address',
         'phone_number',
@@ -40,19 +41,7 @@ class Company extends Model
         return $this->hasOne(Application::class);
     }
 
-    // // APIからのデータ自動入力時にstatusをEnumとして適用
-    // public static function createFromApiData(array $data)
-    // {
-    //     // statusが数値の場合、Enumに変換してから保存
-    //     if (isset($data['status'])) {
-    //         $data['status'] = Status::fromValue($data['status']);
-    //     }
-
-    //     // APIから取得した企業情報をそのまま保存
-    //     return self::create($data);
-    // }
-
-    //ステータスのインスタンスを取得
+    //　ステータスのインスタンスを取得
     public static function getStatuses()
     {
         return Status::getInstances();

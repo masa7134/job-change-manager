@@ -46,6 +46,10 @@
                 {{-- 更新フォーム --}}
                 <form action="{{ route('interview.update', ['company' => $company->id, 'interview' => $interview->id] )}}" method="POST" id="interview-form">
                     @csrf
+                    {{-- HiddenフィールドでIDを送信 --}}
+                    <input type="hidden" name="company_id" value="{{ $company->id }}">
+                    <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+
                     <div class="flex justify-center">
                         {{-- 面接日 --}}
                         <div class="p-6 text-gray-900">

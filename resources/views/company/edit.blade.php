@@ -168,13 +168,13 @@
                     </div>
                     {{-- 面接セクター --}}
                     <div class="mb-4">
-                        <table class="w-full border-collapse">
+                        <table class="w-full border-collapse text-center">
                             <thead>
                                 <tr class="bg-gray-100">
-                                    <th class="text-left font-semibold px-4 py-2 border">面接</th>
-                                    <th class="text-left font-semibold px-4 py-2 border">面接日</th>
-                                    <th class="text-left font-semibold px-4 py-2 border">ステータス</th>
-                                    <th class="text-left font-semibold px-4 py-2 border">対策状況</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">面接</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">面接日</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">ステータス</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">対策状況</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -183,7 +183,7 @@
                                         <td class="px-4 py-2 border">
                                             <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => $interview->id] )}}"
                                                 class="mb-4 font-semibold text-gray-400 hover:text-gray-900 hover:underline">
-                                                    {{ $interview['interview_round']->text() }}:
+                                                    {{ $interview['interview_round']->text() }}
                                             </a>
                                         </td>
                                         <td class="px-4 py-2 border">{{ $interview['interview_date']}}</td>

@@ -21,9 +21,9 @@ class InterviewController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(int $id)
+    public function create(Request $request)
     {
-        $company = Company::where('id', $id)
+        $company = Company::where($request->company_id)
             ->with('application.interviews')
             ->firstOrFail();
 
@@ -66,12 +66,12 @@ class InterviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $companyId, string $interviewId)
+    public function edit(string $interviewId)
     {
-        $company = Company::with('application')
-            ->findOrFail($companyId);
-        $interview = Interview::findOrFail($interviewId);
+        $interview = Interview::with('application.company')->findOrFail($interviewId);
         $interviewStatuses = Interview::getStatuses();
+
+        $company = $interview->application->company;
 
         return view('interview.edit', compact(
             'interview',
@@ -83,10 +83,12 @@ class InterviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(InterviewRequest $request, $companyId, $interviewId)
+    public function update(InterviewRequest $request, $interviewId)
     {
-        $company = Company::findOrFail($companyId);
-        $interview = Interview::findOrFail($interviewId);
+        $interview = Interview::with('application.company')
+            ->findOrFail($interviewId);
+
+        $company = $interview->application->company;
 
         $interview->update([
             'interview_date' => $request->interview_date,
@@ -101,7 +103,7 @@ class InterviewController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $companyId, string $interviewId)
+    public function destroy(string $interviewId)
     {
         $interview = Interview::findOrFail($interviewId);
         $companyId = $interview->application->company->id;

@@ -29,9 +29,12 @@ class CompanyController extends Controller
     //企業データ保存
     public function store(CompanyRequest $request)
     {
-        $company = Company::create($request->validated());
+        Company::create([
+            'name' => $request->name,
+            'user_id' => auth()->id(),
+        ]);
 
-        return redirect()->route('company.index')->with('success', '企業情報が登録されました。');
+        return redirect()->route('company.register')->with('success', '企業情報が登録されました。');
     }
 
     //企業詳細表示
@@ -48,6 +51,15 @@ class CompanyController extends Controller
         $company = Company::where('id', $id)
         ->with('application.interviews')
         ->firstOrFail();
+
+        if (!$company->application) {
+            $company->application()->create([
+                'resume_status' => 0,
+                'work_history_status' => 0,
+                'entry_form_status' => 0,
+                'application_status' => 0,
+            ]);
+        }
 
         $statuses = Company::getStatuses();
         $applicationStatuses = Application::getStatuses();
