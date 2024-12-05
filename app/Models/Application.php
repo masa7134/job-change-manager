@@ -34,13 +34,13 @@ class Application extends Model
         return $this->belongsTo(Company::class);
     }
 
-    //Interviewとのリレーション
+    // Interviewとのリレーション
     public function interviews()
     {
         return $this->hasMany(Interview::class);
     }
 
-    //ステータスのインスタンスを取得
+    // ステータスのインスタンスを取得
     public static function getStatuses()
     {
         return [

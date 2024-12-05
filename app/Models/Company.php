@@ -41,7 +41,7 @@ class Company extends Model
         return $this->hasOne(Application::class);
     }
 
-    //　ステータスのインスタンスを取得
+    // ステータスのインスタンスを取得
     public static function getStatuses()
     {
         return Status::getInstances();

@@ -32,7 +32,7 @@ class Interview extends Model
         return $this->belongsTo(Application::class);
     }
 
-    //ステータスのインスタンスを取得
+    // ステータスのインスタンスを取得
     public static function getStatuses()
     {
         return [

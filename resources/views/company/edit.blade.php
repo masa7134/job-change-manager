@@ -262,8 +262,8 @@
         function confirmDelete() {
             if (confirm('本当にこの企業を削除しますか？この操作は元に戻せません。')) {
                 const button =document.getElementById('delete-button');
-                button.disabled = true; //二重送信防止
-                button.textContent = '処理中・・・';//処理中メッセージ
+                button.disabled = true; // 二重送信防止
+                button.textContent = '処理中・・・';// 処理中メッセージ
                 document.getElementById('delete-form').submit();
             }
         }

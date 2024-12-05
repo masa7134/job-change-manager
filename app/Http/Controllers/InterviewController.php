@@ -33,7 +33,7 @@ class InterviewController extends Controller
         $existingRounds =$company->application->interviews->pluck('interview_round')->toArray();
 
         // 次の面接ラウンドを決定（最大ラウンド番号に1を加える）
-        $nextRound = empty($existingRounds) ? 0 : min(max($existingRounds) + 1, 4);//4を超えない
+        $nextRound = empty($existingRounds) ? 0 : min(max($existingRounds) + 1, 4);// 4を超えない
 
         $interview = new Interview();
         $interview->application_id = $company->application->id;
