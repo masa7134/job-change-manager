@@ -12,7 +12,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form action="{{ route('company.update', $company->id )}}" method="POST" enctype="multipart/form-data" id="company-form">
+            {{-- <form action="{{ route('company.update', $company->id )}}" method="POST" enctype="multipart/form-data" id="company-form"> --}}
                 @csrf
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     {{-- 企業名 --}}
@@ -178,50 +178,64 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($company->application->interviews as $interview)
-                                    <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white'}} hover:bg-gray-100 transition-colors">
-                                        <td class="px-4 py-2 border">
-                                            <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => $interview->id] )}}"
-                                                class="mb-4 font-semibold text-gray-400 hover:text-gray-900 hover:underline">
-                                                    {{ $interview['interview_round']->text() }}
-                                            </a>
-                                        </td>
-                                        <td class="px-4 py-2 border">{{ $interview['interview_date']}}</td>
-                                        <td class="px-4 py-2 border {{ $interview['interview_status']->color() }}">
-                                            {{ $interview['interview_status']->text() }}
-                                        </td>
-                                        <td class="px-4 py-2 border {{ $interview['preparation_status']->color() }}">
-                                            {{ $interview['preparation_status']->text() }}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @if ($interviews->isNotEmpty())
+                                    @foreach ($interviews as $interview)
+                                        <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white'}} hover:bg-gray-100 transition-colors">
+                                            <td class="px-4 py-2 border">
+                                                <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => $interview->id] )}}"
+                                                    class="mb-4 font-semibold text-gray-400 hover:text-gray-900 hover:underline">
+                                                        {{ $interview['interview_round']->text() }}
+                                                </a>
+                                            </td>
+                                            <td class="px-4 py-2 border">{{ $interview['interview_date']}}</td>
+                                            <td class="px-4 py-2 border {{ $interview['interview_status']->color() }}">
+                                                {{ $interview['interview_status']->text() }}
+                                            </td>
+                                            <td class="px-4 py-2 border {{ $interview['preparation_status']->color() }}">
+                                                {{ $interview['preparation_status']->text() }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <p class="text-gray-500 text-center py-4">面接情報はありません。</p>
+                                @endif
                             </tbody>
                         </table>
                     </div>
-                    {{-- 面接へボタン --}}
+                    {{-- 面接ボタン --}}
                     <div class="mb-4">
-                        @php
-                            $interviews = $company->application->interviews;
-                            $latestRound = $interviews->max('interview_round');
-                            $nextRound = $latestRound ? $latestRound->value + 1 : 0;
-                        @endphp
                         @if ($interviews->isEmpty())
-                            <a href="{{ route('interview.create', ['company' => $company->id, 'round' => 0] )}}"
-                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                            {{-- 面接へ --}}
+                            <form action="{{ route('interview.create') }}" method="GET">
+                                @csrf
+                                <input type="hidden" name="company_id" value="{{ $s->id }}">
+                                <input type="hidden" name="interview_round" value="0">
+                                <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
                                     面接へ
-                            </a>
+                                </button>
+                            </form>
                         @else
-                            <a href="{{ route('interview.create', ['company' => $company->id, 'round' => $nextRound] )}}"
-                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                            {{-- 次の面接へ --}}
+                            <form action="{{ route('interview.create') }}" method="GET">
+                                @csrf
+                                @php
+                                    $interviews = $company->application->interviews;
+                                    $latestRound = $interviews->max('interview_round');
+                                    $nextRound = $latestRound ? $latestRound->value + 1 : 0;
+                                @endphp
+                                <input type="hidden" name="company_id" value="{{ $company->id }}">
+                                <input type="hidden" name="interview_round" value="{{ $nextRound }}">
+                                <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
                                     次の面接へ
-                            </a>
+                                </button>
+                            </form>
                         @endif
                     </div>
                 </div>
                 <div class="p-6 flex justify-between">
                     {{-- 更新ボタン --}}
                     <button type="submit"class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">更新</button>
-                </form>
+                {{-- </form> --}}
                 {{-- 削除ボタン, --}}
                 <form action="{{ route('company.destroy', $company->id) }}" method="POST" id="delete-form">
                     @csrf

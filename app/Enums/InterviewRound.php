@@ -35,4 +35,21 @@ final class InterviewRound extends Enum
             self::Fourth   => '４次面接',
         };
     }
+
+    /**
+     * 次の面接ラウンドを取得
+     *
+     * @return InterviewRound
+     */
+    public function nextRound(): InterviewRound
+    {
+        return match ($this->value) {
+            self::Casual => static::First(),
+            self::First => static::Second(),
+            self::Second => static::Third(),
+            self::Third => static::Fourth(),
+            self::Fourth => static::Fourth(), // 4回目以降は変化なし
+            default => static::Casual(), // デフォルトはカジュアル面談
+        };
+    }
 }

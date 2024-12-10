@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ApplicationStatus;
+use App\Enums\EntryFormStatus;
+use App\Enums\ResumeStatus;
+use App\Enums\WorkHistoryStatus;
 use App\Models\Company;
 use App\Models\Application;
 use App\Models\Interview;
@@ -54,18 +58,21 @@ class CompanyController extends Controller
 
         if (!$company->application) {
             $company->application()->create([
-                'resume_status' => 0,
-                'work_history_status' => 0,
-                'entry_form_status' => 0,
-                'application_status' => 0,
+                'resume_status' => ResumeStatus::NotCreated,
+                'work_history_status' => WorkHistoryStatus::NotCreated,
+                'entry_form_status' => EntryFormStatus::NotEntered,
+                'application_status' => ApplicationStatus::NotSubmitted,
             ]);
+
+            $company->load('application.interviews');//常に最新の状態をロード
         }
 
         $statuses = Company::getStatuses();
         $applicationStatuses = Application::getStatuses();
         $interviewStatuses = Interview::getStatuses();
+        $interviews = $company->application->interviews;
 
-        return view('company.edit', compact('company', 'statuses', 'applicationStatuses', 'interviewStatuses'));
+        return view('company.edit', compact('company', 'statuses', 'applicationStatuses', 'interviewStatuses', 'interviews'));
     }
 
     // 企業情報更新

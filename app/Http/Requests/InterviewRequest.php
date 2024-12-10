@@ -21,10 +21,20 @@ class InterviewRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        // ルートに応じて異なるバリデーションルールを設定
+        $routeName = $this->route()->getName();
+
+        $rules = [
             'interview_date' => 'nullable|date|after_or_equal:today',
             'content' => 'nullable|string',
         ];
+
+        //面接詳細新規作成時のみ、interview_roundを必須に
+        if ($routeName === 'interview.store') {
+            $rules['interview_round'] = 'required|string';
+        }
+
+        return $rules;
     }
 
         /**
@@ -43,6 +53,7 @@ class InterviewRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'interview_round.required' => '面接ラウンドは必須です。',
             '*.string' => ':attribute は文字列でなければなりません。',
             '*.max' => ':attribute は最大 :max 文字までです。',
             'interview_date.date' => ':attribute は有効な日付形式でなければなりません。',

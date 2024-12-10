@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\InterviewRound;
 use App\Enums\InterviewStatus;
+use App\Enums\PreparationStatus;
 use App\Models\Interview;
+use App\Models\Application;
 use App\Models\Company;
 use App\Http\Requests\InterviewRequest;
 use Illuminate\Http\Request;
@@ -23,36 +26,64 @@ class InterviewController extends Controller
      */
     public function create(Request $request)
     {
-        $company = Company::where($request->company_id)
-            ->with('application.interviews')
-            ->firstOrFail();
+        $companyId = $request->input('company_id');
+        $company = Company::findOrFail($companyId);
+        $application = $company->application;
+
+        if ($request->has('interview_round')) {
+            //文字列を整数に変換してからEnumを生成
+            $roundValue = (int) $request->input('interview_round');
+            $interviewRound = InterviewRound::fromValue($roundValue);
+        } else {
+            $latestInterview = $application->interviews()->latest('interview_round')->first();
+            $interviewRound = $latestInterview
+                ? InterviewRound::fromValue($latestInterview->interview_round)->nextRound()
+                : InterviewRound::Casual;
+        }
 
         $interviewStatuses = Interview::getStatuses();
 
-        // すでに存在する面接ラウンドの番号を取得
-        $existingRounds =$company->application->interviews->pluck('interview_round')->toArray();
+        // 新規面接レコードを作成（まだDBには保存しない！）
+        $interview = new Interview([
+            'company_id' => $companyId,
+            'application_id' => $application->id,
+            'interview_round' => $interviewRound->value,
+            'interview_status' => InterviewStatus::Schedule,
+            'preparation_status' => PreparationStatus::NoCountermeasures,
+        ]);
 
-        // 次の面接ラウンドを決定（最大ラウンド番号に1を加える）
-        $nextRound = empty($existingRounds) ? 0 : min(max($existingRounds) + 1, 4);// 4を超えない
-
-        $interview = new Interview();
-        $interview->application_id = $company->application->id;
-        $interview->preparation_status = 0;// enumの初期値を設定
-        $interview->interview_round = $nextRound;
-        $interview->save();
-
-        return redirect()->route('interview.edit', [
-            'company' => $company->id,
-            'interview' => $interview->id,
-        ])->with('success', '面接情報が作成されました。');
+        return view('interview.create', compact(
+            'company',
+            'interview',
+            'interviewRound',
+            'interviewStatuses',
+        ));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InterviewRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        //interview_roundがnullでないことを確認
+        if (is_null($validated['interview_round'])) {
+            return redirect()->back()->withInput()->withErrors(['interview_round' => '面接ラウンドは必須です']);
+        }
+
+        $companyId = $request->input('company_id');
+        $company = Company::findOrFail($companyId);
+        $application = $company->application;
+
+        $interview = $application->interviews()->create($validated);
+        $interviewStatuses = Interview::getStatuses();
+
+        return redirect()->route('interview.edit', compact(
+            'company',
+            'interview',
+            'interviewStatuses',
+            ))->with('success', '面接情報を登録しました');
     }
 
     /**

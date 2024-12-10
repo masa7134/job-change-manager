@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('面接詳細編集') }}
+            {{ __('面接詳細作成') }}
         </h2>
         <p class="text-sm text-gray-400 mt-1">
             <a href="{{ route('company.edit', $company->id) }}" class="text-gray-500 hover:underline">
@@ -13,19 +13,27 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <form action="{{ route('interview.update', ['interview' => $interview->id ])}}" method="POST">
+                <form action="{{ route('interview.store', ['company' => $company->id]) }}" method="POST">
                     @csrf
-                    <div class="flex justify-center">
+                    <div class="flex justify-center items-center">
                         {{-- 企業名 --}}
                         <div class="p-6 text-gray-900">
                             <h1 class="font-bold text-center text-2xl text-gray-800 leading-tight mb-1">
                                 {{ $company->name }}
+
                             </h1>
                         </div>
                         {{-- 面接ラウンド --}}
                         <div class="p-6 text-gray-900">
-                            <h1 class="font-bold text-center text-2xl text-gray-800 leading-tight mb-1">
-                                {{ $interview['interview_round']->text() }}
+                            <h1 class="font-bold text-center ztext-2xl text-gray-800 leading-tight mb-1">
+                                <select name="interview_round" class="border border-gray-200 w-min" required>
+                                    @foreach ($interviewStatuses['interview_round'] as $status)
+                                        <option value="{{ $status->value }}"
+                                            {{ $interview->interview_round->value == $status->value ? 'selected' : '' }}>
+                                            {{ $status->text() }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </h1>
                         </div>
                     </div>
@@ -47,9 +55,10 @@
                     @endif
                     {{-- 共通フォームをインクルード --}}
                     @include('interview._form', [
-                        'formAction' => route('interview.update', ['company' => $company->id, 'interview' => $interview->id]),
-                        'submitButtonText' => '更新',
-                        'showDeleteButton' => true
+                        'formAction' => route('interview.store', ['company' => $company->id]),
+                        'submitButtonText' => '作成',
+                        'showDeleteButton' =>false,
+                        'interviewStatuses' => $interviewStatuses,
                     ])
                 </form>
             </div>

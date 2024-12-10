@@ -50,4 +50,13 @@ class Interview extends Model
         }
         return $this->{$column}->text();// Enumのテキストを返す
     }
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        if (isset($attributes['interview_round'])) {
+            $this->attributes['interview_round'] = $attributes['interview_round'];
+        }
+    }
 }
