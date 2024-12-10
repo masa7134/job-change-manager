@@ -208,7 +208,7 @@
                             {{-- 面接へ --}}
                             <form action="{{ route('interview.create') }}" method="GET">
                                 @csrf
-                                <input type="hidden" name="company_id" value="{{ $s->id }}">
+                                <input type="hidden" name="company_id" value="{{ $company->id }}">
                                 <input type="hidden" name="interview_round" value="0">
                                 <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
                                     面接へ
