@@ -7,12 +7,12 @@ use BenSampo\Enum\Enum;
 /**
  * 面接状況を表すEnum
  *
- * @method static static ScheduledDate()
+ * @method static static Schedule()
  * @method static static Implemented()
  */
 final class InterviewStatus extends Enum
 {
-    const ScheduledDate = 0;
+    const Schedule = 0;
     const Implemented = 1;
 
     /**
@@ -23,7 +23,7 @@ final class InterviewStatus extends Enum
     public function text(): string
     {
         return match ($this->value) {
-            self::ScheduledDate    => '予定日',
+            self::Schedule    => '予定',
             self::Implemented   => '実施済',
         };
     }
@@ -31,7 +31,7 @@ final class InterviewStatus extends Enum
     public function color(): string
     {
         return match ($this->value) {
-            self::ScheduledDate    => 'text-red-500',
+            self::Schedule    => 'text-red-500',
             self::Implemented   => 'text-blue-500',
         };
     }

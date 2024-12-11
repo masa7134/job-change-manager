@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="mb-4 font-semibold text-xl text-gray-800 leading-tight">
             {{ __('企業詳細') }}
         </h2>
+        <p class="text-sm text-gray-400 mt-1">
+            <a href="{{ route('dashboard') }}" class="text-gray-500 hover:underline">
+                {{ __('進捗状況にもどる')}}
+            </a>
+        </p>
     </x-slot>
 
     <div class="py-12">
@@ -47,13 +52,9 @@
                         </div>
                     @endif
                     {{-- url --}}
-                    <div class="mb-4 flex gap-4">
-                        <div class="font-semibold">URL:</div>
-                        <div>
-                            <a href="{{ $company->url }}" target="_blank" class="text-blue-500 hover:underline">
-                                {{ $company->url }}
-                            </a>
-                        </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">URL</label>
+                        <input type="text" name="url" value="{{ old('url', $company->url) }}" class="border w-full">
                     </div>
                     {{-- 住所 --}}
                     <div class="mb-4">
@@ -161,30 +162,87 @@
                             @endforeach
                         </select>
                     </div>
-                    {{-- カジュアル面談 --}}
-                    <div class="mb-4 flex items-center gap-4">
-                        <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => 'casual'] )}}"
-                        class='font-semibold text-blue-500 hover:underline'>
-                            カジュアル面談:
-                        </a>
-                        <div class="font-semibold text-red-500">
-                            未定
-                        </div>
+                    {{-- 面接セクター --}}
+                    <div class="mb-4">
+                        <table class="w-full border-collapse text-center">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="text-center font-semibold px-4 py-2 border">面接</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">面接日</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">ステータス</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">対策状況</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($interviews->isNotEmpty())
+                                    @foreach ($interviews as $interview)
+                                        <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white'}} hover:bg-gray-100 transition-colors">
+                                            <td class="px-4 py-2 border">
+                                                <a href="{{ route('interview.edit', ['company' => $company->id, 'interview' => $interview->id] )}}"
+                                                    class="mb-4 font-semibold text-gray-400 hover:text-gray-900 hover:underline">
+                                                        {{ $interview['interview_round']->text() }}
+                                                </a>
+                                            </td>
+                                            <td class="px-4 py-2 border">{{ $interview['interview_date']}}</td>
+                                            <td class="px-4 py-2 border {{ $interview['interview_status']->color() }}">
+                                                {{ $interview['interview_status']->text() }}
+                                            </td>
+                                            <td class="px-4 py-2 border {{ $interview['preparation_status']->color() }}">
+                                                {{ $interview['preparation_status']->text() }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <p class="text-gray-500 text-center py-4">面接情報はありません。</p>
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="p-6 flex justify-between">
+                <div class="flex justify-between items-center">
                     {{-- 更新ボタン --}}
-                    <button type="submit">更新</button>
+                    <button type="submit"class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">更新</button>
                 </form>
-                {{-- 削除ボタン --}}
-                <form action="{{ route('company.destroy', $company->id) }}" method="POST" id="delete-form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" id="delete-button" onclick="confirmDelete()" aria-label="この企業を削除します。">
-                        削除
-                    </button>
+                {{-- 面接ボタン --}}
+                <div >
+                    @if ($interviews->isEmpty())
+                        {{-- 面接へ --}}
+                        <form action="{{ route('interview.create') }}" method="GET">
+                            @csrf
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+                            <input type="hidden" name="interview_round" value="0">
+                            <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                                面接へ
+                            </button>
+                        </form>
+                    @else
+                        {{-- 次の面接へ --}}
+                        <form action="{{ route('interview.create') }}" method="GET">
+                            @csrf
+                            @php
+                                $interviews = $company->application->interviews;
+                                $latestRound = $interviews->max('interview_round');
+                                $nextRound = $latestRound ? $latestRound->value + 1 : 0;
+                            @endphp
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+                            <input type="hidden" name="interview_round" value="{{ $nextRound }}">
+                            <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                                次の面接へ
+                            </button>
+                        </form>
+                    @endif
                 </div>
-            </form>
+                <div class="p-6 flex justify-between">
+                    {{-- 削除ボタン, --}}
+                    <form action="{{ route('company.destroy', $company->id) }}" method="POST" id="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" id="delete-button" onclick="confirmDelete()" aria-label="この企業を削除します。" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                            削除
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -216,8 +274,8 @@
         function confirmDelete() {
             if (confirm('本当にこの企業を削除しますか？この操作は元に戻せません。')) {
                 const button =document.getElementById('delete-button');
-                button.disabled = true; //二重送信防止
-                button.textContent = '処理中・・・';//処理中メッセージ
+                button.disabled = true; // 二重送信防止
+                button.textContent = '処理中・・・';// 処理中メッセージ
                 document.getElementById('delete-form').submit();
             }
         }

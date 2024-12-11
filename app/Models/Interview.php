@@ -14,9 +14,11 @@ class Interview extends Model
 
     protected $fillable = [
         'application_id',
+        'interview_date',
         'interview_round',
         'interview_status',
         'preparation_status',
+        'content',
     ];
 
     protected $casts = [
@@ -30,7 +32,7 @@ class Interview extends Model
         return $this->belongsTo(Application::class);
     }
 
-    //ステータスのインスタンスを取得
+    // ステータスのインスタンスを取得
     public static function getStatuses()
     {
         return [
@@ -47,5 +49,14 @@ class Interview extends Model
             throw new \InvalidArgumentException("Invalid Enum column: $column");
         }
         return $this->{$column}->text();// Enumのテキストを返す
+    }
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        if (isset($attributes['interview_round'])) {
+            $this->attributes['interview_round'] = $attributes['interview_round'];
+        }
     }
 }
