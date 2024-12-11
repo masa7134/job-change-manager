@@ -12,7 +12,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            {{-- <form action="{{ route('company.update', $company->id )}}" method="POST" enctype="multipart/form-data" id="company-form"> --}}
+            <form action="{{ route('company.update', $company->id )}}" method="POST" enctype="multipart/form-data" id="company-form">
                 @csrf
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     {{-- 企業名 --}}
@@ -52,13 +52,9 @@
                         </div>
                     @endif
                     {{-- url --}}
-                    <div class="mb-4 flex gap-4">
-                        <div class="font-semibold">URL:</div>
-                        <div>
-                            <a href="{{ $company->url }}" target="_blank" class="text-blue-500 hover:underline">
-                                {{ $company->url }}
-                            </a>
-                        </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">URL</label>
+                        <input type="text" name="url" value="{{ old('url', $company->url) }}" class="border w-full">
                     </div>
                     {{-- 住所 --}}
                     <div class="mb-4">
@@ -202,49 +198,51 @@
                             </tbody>
                         </table>
                     </div>
-                    {{-- 面接ボタン --}}
-                    <div class="mb-4">
-                        @if ($interviews->isEmpty())
-                            {{-- 面接へ --}}
-                            <form action="{{ route('interview.create') }}" method="GET">
-                                @csrf
-                                <input type="hidden" name="company_id" value="{{ $company->id }}">
-                                <input type="hidden" name="interview_round" value="0">
-                                <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
-                                    面接へ
-                                </button>
-                            </form>
-                        @else
-                            {{-- 次の面接へ --}}
-                            <form action="{{ route('interview.create') }}" method="GET">
-                                @csrf
-                                @php
-                                    $interviews = $company->application->interviews;
-                                    $latestRound = $interviews->max('interview_round');
-                                    $nextRound = $latestRound ? $latestRound->value + 1 : 0;
-                                @endphp
-                                <input type="hidden" name="company_id" value="{{ $company->id }}">
-                                <input type="hidden" name="interview_round" value="{{ $nextRound }}">
-                                <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
-                                    次の面接へ
-                                </button>
-                            </form>
-                        @endif
-                    </div>
                 </div>
-                <div class="p-6 flex justify-between">
+                <div class="flex justify-between items-center">
                     {{-- 更新ボタン --}}
                     <button type="submit"class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">更新</button>
-                {{-- </form> --}}
-                {{-- 削除ボタン, --}}
-                <form action="{{ route('company.destroy', $company->id) }}" method="POST" id="delete-form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" id="delete-button" onclick="confirmDelete()" aria-label="この企業を削除します。" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
-                        削除
-                    </button>
+                </form>
+                {{-- 面接ボタン --}}
+                <div >
+                    @if ($interviews->isEmpty())
+                        {{-- 面接へ --}}
+                        <form action="{{ route('interview.create') }}" method="GET">
+                            @csrf
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+                            <input type="hidden" name="interview_round" value="0">
+                            <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                                面接へ
+                            </button>
+                        </form>
+                    @else
+                        {{-- 次の面接へ --}}
+                        <form action="{{ route('interview.create') }}" method="GET">
+                            @csrf
+                            @php
+                                $interviews = $company->application->interviews;
+                                $latestRound = $interviews->max('interview_round');
+                                $nextRound = $latestRound ? $latestRound->value + 1 : 0;
+                            @endphp
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+                            <input type="hidden" name="interview_round" value="{{ $nextRound }}">
+                            <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                                次の面接へ
+                            </button>
+                        </form>
+                    @endif
                 </div>
-            </form>
+                <div class="p-6 flex justify-between">
+                    {{-- 削除ボタン, --}}
+                    <form action="{{ route('company.destroy', $company->id) }}" method="POST" id="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" id="delete-button" onclick="confirmDelete()" aria-label="この企業を削除します。" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+                            削除
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <script>

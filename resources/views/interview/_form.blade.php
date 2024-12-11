@@ -8,7 +8,7 @@
     <div class="flex justify-center">
         {{-- 面接日 --}}
         <div class="p-6 text-gray-900">
-            <input type="text" id="interview_date" name="interview_date" value="{{ old('interview_date', $interview->interview_date) }}" class="border border-gray-200">
+            <input type="text" id="interview_date" name="interview_date" value="{{ old('interview_date', $interview->interview_date) }}" class="border border-gray-200" placeholder="面接日を選択">
         </div>
         {{-- インタビューステータス --}}
         <div class="p-6 text-gray-900">

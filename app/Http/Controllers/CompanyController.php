@@ -56,16 +56,14 @@ class CompanyController extends Controller
         ->with('application.interviews')
         ->firstOrFail();
 
-        if (!$company->application) {
-            $company->application()->create([
-                'resume_status' => ResumeStatus::NotCreated,
-                'work_history_status' => WorkHistoryStatus::NotCreated,
-                'entry_form_status' => EntryFormStatus::NotEntered,
-                'application_status' => ApplicationStatus::NotSubmitted,
-            ]);
+        $company->application()->create([
+            'resume_status' => ResumeStatus::NotCreated,
+            'work_history_status' => WorkHistoryStatus::NotCreated,
+            'entry_form_status' => EntryFormStatus::NotEntered,
+            'application_status' => ApplicationStatus::NotSubmitted,
+        ]);
 
-            $company->load('application.interviews');//常に最新の状態をロード
-        }
+        $company->load('application.interviews');//常に最新の状態をロード
 
         $statuses = Company::getStatuses();
         $applicationStatuses = Application::getStatuses();
@@ -78,18 +76,19 @@ class CompanyController extends Controller
     // 企業情報更新
     public function update(CompanyRequest $request, int $id)
     {
-        $company = Company::findOrFail($id);
-        $company->update(array_merge($request->validated(), [
-            'status' => $request->status,
-        ]));
+        \Log::info('Update Request Data:', $request->all());
 
-        $application = $company->application;
-        $application->update([
-            'resume_status' => $request->resume_status,
-            'work_history_status' => $request->work_history_status,
-            'entry_form_status' => $request->entry_form_status,
-            'application_status' => $request->application_status,
-        ]);
+        $company = Company::findOrFail($id);
+        $company->update($request->validated());
+
+        if ($company->application) {
+            $company->application->update([
+                'resume_status' => $request->resume_status,
+                'work_history_status' => $request->work_history_status,
+                'entry_form_status' => $request->entry_form_status,
+                'application_status' => $request->application_status,
+            ]);
+        }
 
         return redirect()->route('company.edit', $company->id)->with('success', '企業情報が更新されました。');
     }

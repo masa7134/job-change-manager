@@ -83,7 +83,7 @@ class InterviewController extends Controller
             'company',
             'interview',
             'interviewStatuses',
-            ))->with('success', '面接情報を登録しました');
+        ))->with('success', '面接情報を登録しました');
     }
 
     /**
