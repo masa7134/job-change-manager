@@ -44,9 +44,7 @@ class CompanyController extends Controller
     // 企業詳細表示
     public function show($id)
     {
-        $company = Company::findOrFail($id);
-
-        return view('company.show', compact('company'));
+        //
     }
 
     // 企業編集フォーム表示
@@ -76,8 +74,6 @@ class CompanyController extends Controller
     // 企業情報更新
     public function update(CompanyRequest $request, int $id)
     {
-        \Log::info('Update Request Data:', $request->all());
-
         $company = Company::findOrFail($id);
         $company->update($request->validated());
 
@@ -102,11 +98,22 @@ class CompanyController extends Controller
         return redirect()->route('dashboard')->with('success', '企業情報が削除されました。');
     }
 
-    // すべての企業を表示
-    public function getAllCompanies()
+    // すべての企業を表示（フィルター機能付き）
+    public function getAllCompanies(Request $request)
     {
-        $companies = Company::where('user_id', auth()->id())->get();
+        // 全企業取得するクエリ
+        $query = Company::where('user_id', auth()->id());
 
-        return view('company.all', compact('companies'));
+        // status_filterパラメーターが存在したらフィルタリング、存在しなければall
+        $currentFilter = $request->get('status_filter', 'all');
+        if ($currentFilter !== 'all') {
+            $query->where('status', $currentFilter);
+        }
+
+        // クエリを実行
+        $companies = $query->get();
+        $statuses = Company::getStatuses();
+
+        return view('company.all', compact('companies', 'statuses', 'currentFilter'));
     }
 }

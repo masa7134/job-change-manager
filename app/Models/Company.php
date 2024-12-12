@@ -13,11 +13,11 @@ class Company extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'status',
         'url',
         'address',
         'phone_number',
         'email',
-        'status',
         'corporate_philosophy',
         'ceo_message',
         'job_type',
