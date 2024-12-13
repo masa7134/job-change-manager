@@ -41,12 +41,6 @@ class CompanyController extends Controller
         return redirect()->route('company.register')->with('success', '企業情報が登録されました。');
     }
 
-    // 企業詳細表示
-    public function show($id)
-    {
-        //
-    }
-
     // 企業編集フォーム表示
     public function edit(int $id)
     {
@@ -104,14 +98,14 @@ class CompanyController extends Controller
         // 全企業取得するクエリ
         $query = Company::where('user_id', auth()->id());
 
-        // status_filterパラメーターが存在したらフィルタリング、存在しなければall
-        $currentFilter = $request->get('status_filter', 'all');
-        if ($currentFilter !== 'all') {
+        // status_filterパラメーターが存在したらフィルタリング、存在しなければ99(全件表示)
+        $currentFilter = $request->get('status_filter', '99');
+        if ($currentFilter != '99') {
             $query->where('status', $currentFilter);
         }
 
         // クエリを実行
-        $companies = $query->get();
+        $companies = $query->orderBy('updated_at', 'desc')->get();
         $statuses = Company::getStatuses();
 
         return view('company.all', compact('companies', 'statuses', 'currentFilter'));

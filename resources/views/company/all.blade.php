@@ -19,16 +19,17 @@
                         <form method="GET" action="{{ route('company.all') }}" class="flex items-center gap-4">
                             <label for="status_filter" class="font-semibold">ステータスで絞り込み:</label>
                             <select name="status_filter" id="status_filter" class="border border-gray-200 dynamic-color" onchange="this.form.submit()">
-                                {{-- 初期値 --}}
-                                <option value="all"
+                                {{-- 初期値(99を全件表示用の値として使用) --}}
+                                <option value="99"
                                     class="text-gray-700"
-                                    {{ $currentFilter === 'all' ? 'selected' : '' }}>
+                                    {{ $currentFilter == '99' ? 'selected' : '' }}>
                                     全て表示
                                 </option>
                                 {{-- 選択肢（ステータス） --}}
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status->value }}"
                                         class="{{ $status->color()}}"
+                                        {{-- 型の一貫性を保証するためstring型にキャスト --}}
                                         {{ (string)$currentFilter === (string)$status->value ? 'selected' : '' }}>
                                         {{ $status->text() }}
                                     </option>
