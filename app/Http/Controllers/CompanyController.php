@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ApplicationStatus;
 use App\Enums\EntryFormStatus;
+use App\Enums\InterviewStatus;
 use App\Enums\ResumeStatus;
 use App\Enums\WorkHistoryStatus;
 use App\Models\Company;
@@ -17,9 +18,25 @@ class CompanyController extends Controller
     // 企業一覧表示
     public function index()
     {
-        $companies = Company::where('status', '進行中')
-        ->where('user_id', auth()->id())
-        ->get();
+        $companies = Company::sortByProgress()
+            ->with(['application.interviews' => function($query) {
+                $query->where(function($q) {
+                    // 未来の予定面接を優先して取得
+                    $q->where('interview_status', InterviewStatus::Schedule)
+                        ->where('interview_date', '>=', now()->format('Y-m-d'));
+                })
+                ->orWhere(function($q) {
+                    //　予定面接がない場合は実施済みの最新を取得
+                    $q->where('interview_status', InterviewStatus::Implemented);
+                })
+                ->orderByRaw("FIELD(interview_status, ?, ?) ASC", [
+                    InterviewStatus::Schedule,
+                    InterviewStatus::Implemented,
+                ])
+                ->orderBy('interview_date', 'asc')
+                ->take(1);// １件のみ取得
+            }])
+            ->paginate(20);
 
         return view('dashboard', compact('companies'));
     }
