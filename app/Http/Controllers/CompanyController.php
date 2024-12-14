@@ -19,21 +19,23 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = Company::sortByProgress()
+            // Eager Loadingし、コールバック関数でinterviewsの絞り込み
             ->with(['application.interviews' => function($query) {
+                // 未来の予定面接を優先して取得
                 $query->where(function($q) {
-                    // 未来の予定面接を優先して取得
                     $q->where('interview_status', InterviewStatus::Schedule)
                         ->where('interview_date', '>=', now()->format('Y-m-d'));
                 })
+                //　予定面接がない場合は実施済みの最新を取得
                 ->orWhere(function($q) {
-                    //　予定面接がない場合は実施済みの最新を取得
                     $q->where('interview_status', InterviewStatus::Implemented);
                 })
+                // ステータスの優先順位を指定
                 ->orderByRaw("FIELD(interview_status, ?, ?) ASC", [
                     InterviewStatus::Schedule,
                     InterviewStatus::Implemented,
                 ])
-                ->orderBy('interview_date', 'asc')
+                ->orderBy('interview_date', 'asc')// 面接日が近い順で表示
                 ->take(1);// １件のみ取得
             }])
             ->paginate(20);
