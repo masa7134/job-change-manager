@@ -22,6 +22,7 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'status' => 'required',
             'address' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:100',

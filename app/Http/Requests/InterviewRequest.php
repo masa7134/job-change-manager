@@ -25,9 +25,18 @@ class InterviewRequest extends FormRequest
         $routeName = $this->route()->getName();
 
         $rules = [
-            'interview_date' => 'nullable|date|after_or_equal:today',
+            // 'interview_date' => 'nullable|date|after_or_equal:today',
             'content' => 'nullable|string',
         ];
+
+        // 面接日のバリデーションルール
+        if ($routeName === 'interview.store') {
+            // 新規作成時は今日以降の日付のみ許可
+            $rules['interview_date'] = 'nullable|date|after_or_equal:today';
+        } else {
+            // 更新時は過去の日付も許可
+            $rules['interview_date'] = 'nullable|date';
+        }
 
         //面接詳細新規作成時のみ、interview_roundを必須に
         if ($routeName === 'interview.store') {

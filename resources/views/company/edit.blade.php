@@ -204,7 +204,7 @@
                     <button type="submit"class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">更新</button>
                 </form>
                 {{-- 面接ボタン --}}
-                <div >
+                <div>
                     @if ($interviews->isEmpty())
                         {{-- 面接へ --}}
                         <form action="{{ route('interview.create') }}" method="GET">
