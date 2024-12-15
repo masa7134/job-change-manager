@@ -69,19 +69,17 @@ class Company extends Model
                 'companies.*',
                 //進捗状況のカウント
                 DB::raw('(
-                    SELECT COUNT(*)
+                    SELECT
+                        SUM(CASE WHEN a.resume_status = 1 THEN 1 ELSE 0 END) +
+                        SUM(CASE WHEN a.work_history_status = 1 THEN 1 ELSE 0 END) +
+                        SUM(CASE WHEN a.entry_form_status = 1 THEN 1 ELSE 0 END) +
+                        SUM(CASE WHEN a.application_status = 1 THEN 1 ELSE 0 END)
                     FROM applications a
                     WHERE a.company_id = companies.id
-                    AND (
-                        a.resume_status = 1 OR
-                        a.work_history_status = 1 OR
-                        a.entry_form_status = 1 OR
-                        a.application_status = 1
-                    )
                 ) as progress_count'),
                 // 予定面接があるかどうかのフラグ
-                DB::raw('(
-                    SELECT COUNT(*)
+                DB::raw('EXISTS(
+                    SELECT 1
                     FROM applications a
                     JOIN interviews i ON i.application_id = a.id
                     WHERE a.company_id = companies.id

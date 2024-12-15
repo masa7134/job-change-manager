@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
 use App\Enums\ApplicationStatus;
 use App\Enums\EntryFormStatus;
 use App\Enums\InterviewStatus;
@@ -10,7 +11,7 @@ use App\Enums\WorkHistoryStatus;
 use App\Models\Company;
 use App\Models\Application;
 use App\Models\Interview;
-use App\Http\Requests\CompanyRequest; // バリデーション用のリクエストクラス（後述）
+use App\Http\Requests\CompanyRequest;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -115,11 +116,12 @@ class CompanyController extends Controller
     public function getAllCompanies(Request $request)
     {
         // 全企業取得するクエリ
-        $query = Company::where('user_id', auth()->id());
+        $query = Company::where('user_id', auth()->id())
+            ->with('application.interviews');
 
-        // status_filterパラメーターが存在したらフィルタリング、存在しなければ99(全件表示)
-        $currentFilter = $request->get('status_filter', '99');
-        if ($currentFilter != '99') {
+        // status_filterパラメーターが存在したらフィルタリング、存在しなければ全件表示
+        $currentFilter = $request->get('status_filter', Status::All);
+        if ($currentFilter != Status::All) {
             $query->where('status', $currentFilter);
         }
 
