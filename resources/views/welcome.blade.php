@@ -6,6 +6,9 @@
 
         <title>{{ config('app.name', '転職マネージャー') }}</title>
 
+                {{-- ファビコン --}}
+                <link rel="icon" type="image/png" href="{{ asset('favicon.png ')}}">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -42,6 +45,12 @@
                                 </a>
                             @endif
                         @endauth
+                    </div>
+                    <!-- Googleログインボタン -->
+                    <div class="flex items-center justify-end mt-4">
+                        <a href="{{ route('login.google') }}" class="ml-3 inline-flex items-center">
+                            <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" style="margin-left: 3em;">
+                        </a>
                     </div>
                 @endif
             </div>
