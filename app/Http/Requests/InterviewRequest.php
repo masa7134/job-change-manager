@@ -24,10 +24,6 @@ class InterviewRequest extends FormRequest
     {
         // ルートに応じて異なるバリデーションルールを設定
         $routeName = $this->route()->getName();
-        // $applicationId = $this->route('application');// ルートパラメータからアプリケーションIDを取得
-
-        // \Log::debug('Route Name: ' . $routeName);  // ルート名を確認
-        // \Log::debug('Application ID: ' . $applicationId);
 
         $rules = [
             'application_id' => [
