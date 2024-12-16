@@ -15,6 +15,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form action="{{ route('interview.store', ['company' => $company->id]) }}" method="POST">
                     @csrf
+                    <input type="hidden" name="application_id" value="{{ $interview->application->id }}">
                     <div class="flex justify-center items-center">
                         {{-- 企業名 --}}
                         <div class="p-6 text-gray-900">
@@ -29,7 +30,7 @@
                                 <select name="interview_round" class="border border-gray-200 w-min" required>
                                     @foreach ($interviewStatuses['interview_round'] as $status)
                                         <option value="{{ $status->value }}"
-                                            {{ $interview->interview_round->value == $status->value ? 'selected' : '' }}>
+                                            {{ old('interview_round',$interview->interview_round->value) == $status->value ? 'selected' : '' }}>
                                             {{ $status->text() }}
                                         </option>
                                     @endforeach
