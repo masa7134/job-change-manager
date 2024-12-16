@@ -6,8 +6,8 @@
 
         <title>{{ config('app.name', '転職マネージャー') }}</title>
 
-                {{-- ファビコン --}}
-                <link rel="icon" type="image/png" href="{{ asset('favicon.png ')}}">
+        {{-- ファビコン --}}
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png ')}}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
