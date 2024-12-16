@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\ProfileController;
@@ -8,6 +9,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Googleログイン用ルート
+Route::get('/auth/google', [GoogleLoginController::class, 'redirectToGoogle'])
+    ->name('login.google');
+
+Route::get('/auth/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])
+    ->name('login.google.callback');
 
 Route::middleware('auth', 'verified')->group(function () {
     // ダッシュボード（進行中の企業一覧画面）
