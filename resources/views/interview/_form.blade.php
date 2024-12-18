@@ -3,12 +3,12 @@
     @csrf
     {{-- HiddenフィールドでIDを送信 --}}
     <input type="hidden" name="company_id" value="{{ $company->id }}">
-    {{-- <input type="hidden" name="interview_id" value="{{ $interview->id }}"> --}}
+    <input type="hidden" name="application_id" value="{{ $interview->application->id }}">
 
     <div class="flex justify-center">
         {{-- 面接日 --}}
         <div class="p-6 text-gray-900">
-            <input type="text" id="interview_date" name="interview_date" value="{{ old('interview_date', $interview->interview_date) }}" class="border border-gray-200" placeholder="面接日を選択">
+            <input type="text" id="interview_date" name="interview_date" autocomplete="off" value="{{ old('interview_date', $interview->interview_date) }}" class="border border-gray-200" placeholder="面接日を選択">
         </div>
         {{-- インタビューステータス --}}
         <div class="p-6 text-gray-900">

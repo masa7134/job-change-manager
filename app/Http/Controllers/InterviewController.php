@@ -120,7 +120,10 @@ class InterviewController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('interview.edit', ['company' => $company->id, 'interview' => $interview->id])->with('success', '面接情報が更新されました。');
+        return redirect()->route('interview.edit', [
+            'company' => $company->id,
+            'interview' => $interview->id
+        ])->with('success', '面接情報が更新されました。');
     }
 
     /**
