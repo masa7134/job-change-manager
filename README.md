@@ -1,66 +1,57 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 転職マネージャー
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 概要
+転職活動の進捗状況を一元管理するためのWebアプリケーションです。複数の企業の応募状況や面接の進捗状況を効率的に管理できます。
 
-## About Laravel
+## 機能一覧
+- 企業情報の登録・管理
+- 応募状況の進捗管理（履歴書、職務経歴書、エントリーフォームなど）
+- 進捗状況が進んでいる企業ほど上位に表示
+- 面接スケジュールの管理
+- ステータスに基づいた企業の絞り込み表示
+- Googleアカウントでのログイン対応
+  
+## 実装予定機能
+- GoogoleカレンダーとのAPI連携
+  
+## 技術スタック
+- フレームワーク：Laravel
+- 開発環境:Docker(Laravel Sail)
+- データベース:MySQL
+- 認証:Laravel Breeze, GoogleOAuth
+- フロントエンド:Tailwind CSS
+  
+## 環境構築
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 必要要件
+- Docker Desktop
+- PHP8.2以上
+- Composer
+  
+## インストール手順
+### リポジトリのクローン
+`git clone https://github.com/masa7134/job-change-manager.git`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+`cd job-change-manager`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 環境変数ファイルの作成
+`cp .env.example .env`
 
-## Learning Laravel
+### 依存パッケージのインストール
+`composer install`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Sailの起動
+`./vendor/bin/sail up -d`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### マイグレーションとシーディングの実行
+`./vendor/bin/sail artisan migrate --seed`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### アプリケーションキーの生成
+`./vendor/bin/sail artisan key:generate`
 
-## Laravel Sponsors
+## 参考画像
+<img width="1290" alt="スクリーンショット 2024-12-18 10 05 52" src="https://github.com/user-attachments/assets/01908142-f68a-4d5a-a2a9-050f5bd93be0" />
+<img width="1237" alt="スクリーンショット 2024-12-18 10 06 48" src="https://github.com/user-attachments/assets/b45a2a75-40dd-485a-8dc1-c1bd7165ac81" />
+<img width="1260" alt="スクリーンショット 2024-12-18 10 07 48" src="https://github.com/user-attachments/assets/3bbdef8a-f9a8-4e01-a4ef-1f5be5b05502" />
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ 
