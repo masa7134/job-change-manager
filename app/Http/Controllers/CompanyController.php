@@ -19,7 +19,8 @@ class CompanyController extends Controller
     // 企業一覧表示
     public function index()
     {
-        $companies = Company::sortByProgress()
+        $companies = Company::where('user_id', auth()->id())
+            ->sortByProgress()
             // Eager Loadingし、コールバック関数でinterviewsの絞り込み
             ->with(['application.interviews' => function($query) {
                 // 未来の予定面接を優先して取得
@@ -51,12 +52,15 @@ class CompanyController extends Controller
     }
 
     // 企業データ保存
-    public function store(CompanyRequest $request)
+    public function store(Request $request)
     {
-        Company::create([
+        $company = Company::create([
             'name' => $request->name,
             'user_id' => auth()->id(),
         ]);
+
+        // アプリケーション関連データも同時に作成しcompanyに関連づけ
+        $company->application()->create();
 
         return redirect()->route('company.register')->with('success', '企業情報が登録されました。');
     }
