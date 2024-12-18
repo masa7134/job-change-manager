@@ -122,7 +122,6 @@ class InterviewController extends Controller
 
         return redirect()->route('interview.edit', [
             'company' => $company->id,
-            
             'interview' => $interview->id
         ])->with('success', '面接情報が更新されました。');
     }
