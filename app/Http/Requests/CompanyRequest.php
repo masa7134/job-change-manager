@@ -22,7 +22,9 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required',
+            'name' => 'required|string|max:100',
+            'url' => 'required|url|max:255',
+            'status' => 'nullable',
             'address' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:100',
@@ -44,6 +46,8 @@ class CompanyRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'name' => '企業名',
+            'url' => '企業URL',
             'address' => '住所',
             'phone_number' => '電話番号',
             'email' => 'メールアドレス',
@@ -62,6 +66,7 @@ class CompanyRequest extends FormRequest
         return [
             '*.string' => ':attribute は文字列でなければなりません。',
             '*.max' => ':attribute は最大 :max 文字までです。',
+            'url.url' => ':attribute は正しいURL形式で入力してください。',
             'email.email' => ':attribute は正しい形式で入力してください。'
         ];
     }

@@ -52,10 +52,11 @@ class CompanyController extends Controller
     }
 
     // 企業データ保存
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
         $company = Company::create([
             'name' => $request->name,
+            'url' => $request->url,
             'user_id' => auth()->id(),
         ]);
 
