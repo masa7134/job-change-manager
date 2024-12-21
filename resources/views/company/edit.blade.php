@@ -20,22 +20,13 @@
                         <h1 class="font-bold text-center text-2xl text-gray-800 leading-tight">
                             {{ $company->name }}
                         </h1>
+                        {{-- url --}}
                         <div class="text-center">
                             <a href="{{ $company->url }}" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 {{ $company->url }}
                             </a>
                         </div>
                     </div>
-                    {{-- url --}}
-                    {{-- <div class="p-2 text-gray-900">
-                        <h4 class="text-center text-gray-800 leading-tight mb-1">
-                            {{ $company->url }}
-                        </h4>
-                    </div> --}}
-                    {{-- <div class="mb-4 flex items-center justify-center gap-4">
-                        <label class="block font-semibold">URL:</label>
-                        <input type="text" name="url" value="{{ old('url', $company->url) }}" class="text-center">
-                    </div> --}}
                     {{-- ステータス --}}
                     <div>
                         <h2 class="text-center text-muted mb-4 ">
