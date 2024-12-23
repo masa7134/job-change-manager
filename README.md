@@ -56,10 +56,10 @@
 `sail npm run build`
 
 ### 8. アプリケーションキーの生成
-`./vendor/bin/sail artisan key:generate`
+`sail artisan key:generate`
 
 ### 9. マイグレーションとシーディングの実行
-`./vendor/bin/sail artisan migrate --seed`
+`sail artisan migrate --seed`
 
 ### テストアカウントとパスワード
 以下のテストアカウントを利用して、アプリケーションの機能を確認できます。
