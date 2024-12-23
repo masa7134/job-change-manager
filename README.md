@@ -27,27 +27,43 @@
 - Docker Desktop
 - PHP8.2以上
 - Composer
+- Node.js と npm
   
 ## インストール手順
-### リポジトリのクローン
+### 1. リポジトリのクローン
 `git clone https://github.com/masa7134/job-change-manager.git`
 
 `cd job-change-manager`
 
-### 環境変数ファイルの作成
+### 2. 環境変数ファイルの作成
 `cp .env.example .env`
 
-### 依存パッケージのインストール
+### 3. 依存パッケージのインストール
 `composer install`
 
-### Sailの起動
+### 4. Laravel Sailのインストール
+`php artisan sail:install`
+
+### 5. Sailエイリアスの設定（オプション）
+`alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'`
+
+### 6. Sailの起動
 `./vendor/bin/sail up -d`
 
-### マイグレーションとシーディングの実行
+### 7. NPMパッケージのインストールとビルド
+`sail npm install`
+`sail npm run build`
+
+### 8. アプリケーションキーの生成
+`./vendor/bin/sail artisan key:generate`
+
+### 9. マイグレーションとシーディングの実行
 `./vendor/bin/sail artisan migrate --seed`
 
-### アプリケーションキーの生成
-`./vendor/bin/sail artisan key:generate`
+### テストアカウントとパスワード
+以下のテストアカウントを利用して、アプリケーションの機能を確認できます。
+- メールアドレス:test@example.com
+- パスワード:password
 
 ## 参考画像
 <img width="1290" alt="スクリーンショット 2024-12-18 10 05 52" src="https://github.com/user-attachments/assets/01908142-f68a-4d5a-a2a9-050f5bd93be0" />
