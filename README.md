@@ -13,6 +13,7 @@
   
 ## 実装予定機能
 - GoogleカレンダーとのAPI連携
+- AI面接対策
   
 ## 技術スタック
 - フレームワーク：Laravel
@@ -31,38 +32,73 @@
   
 ## インストール手順
 ### 1. リポジトリのクローン
-`git clone https://github.com/masa7134/job-change-manager.git`
+```bash
+git clone https://github.com/masa7134/job-change-manager.git
+```
 
-`cd job-change-manager`
+```bash
+cd job-change-manager
+```
 
 ### 2. 環境変数ファイルの作成
-`cp .env.example .env`
+```bash
+cp .env.example .env
+```
 
 ### 3. 依存パッケージのインストール
-`composer install`
+```bash
+composer install
+```
+
+※　上記コマンドでエラーが発生する場合は、以下のコマンドを使用してください。
+```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php84-composer:latest \
+    composer install --ignore-platform-reqs
+```
 
 ### 4. Laravel Sailのインストール
-`php artisan sail:install`
+```bash
+php artisan sail:install
+```
 
 ### 5. Sailエイリアスの設定（オプション）
-`alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'`
+```bash
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
 
 ### 6. Sailの起動
-`./vendor/bin/sail up -d`
+```bash
+./vendor/bin/sail up -d
+```
 
 ### 7. NPMパッケージのインストールとビルド
-`sail npm install`
+```bash
+sail npm install
+```
 
-`sail npm run build`
+```bash
+sail npm run build
+```
 
 ### 8. アプリケーションキーの生成
-`sail artisan key:generate`
+```bash
+sail artisan key:generate
+```
 
 ### 9. マイグレーションとシーディングの実行
-`sail artisan migrate --seed`
+```bash
+sail artisan migrate --seed
+```
 
 ### インストール完了後、ブラウザで以下のURLにアクセスしてください。
 http://localhost
+
+### デプロイ済みアプリケーション
+https://job-change-manager.com/
 
 ### テストアカウントとパスワード
 以下のテストアカウントを利用して、アプリケーションの機能を確認できます。
