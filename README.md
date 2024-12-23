@@ -13,6 +13,7 @@
   
 ## 実装予定機能
 - GoogleカレンダーとのAPI連携
+- AI面接対策
   
 ## 技術スタック
 - フレームワーク：Laravel
@@ -41,6 +42,16 @@
 ### 3. 依存パッケージのインストール
 `composer install`
 
+※　上記コマンドでエラーが発生する場合は、以下のコマンドを使用してください。
+```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php84-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
 ### 4. Laravel Sailのインストール
 `php artisan sail:install`
 
@@ -63,6 +74,9 @@
 
 ### インストール完了後、ブラウザで以下のURLにアクセスしてください。
 http://localhost
+
+### デプロイ済みアプリケーション
+https://job-change-manager.com/
 
 ### テストアカウントとパスワード
 以下のテストアカウントを利用して、アプリケーションの機能を確認できます。
