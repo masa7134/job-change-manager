@@ -52,6 +52,7 @@
 
 ### 7. NPMパッケージのインストールとビルド
 `sail npm install`
+
 `sail npm run build`
 
 ### 8. アプリケーションキーの生成
