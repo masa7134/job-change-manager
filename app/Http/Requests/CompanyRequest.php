@@ -21,9 +21,18 @@ class CompanyRequest extends FormRequest
      */
     public function rules(): array
     {
+        // リクエストのルートを取得して、storeアクションかどうかを判定
+        $isStoreAction = $this->route()->getActionMethod() === 'store';
+
+        // 新規登録時のルール
+        if ($isStoreAction) {
+            return [
+                'name' => 'required|string|max:100',
+                'url' => 'required|url|max:255',
+            ];
+        }
+
         return [
-            'name' => 'required|string|max:100',
-            'url' => 'required|url|max:255',
             'status' => 'nullable',
             'address' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',

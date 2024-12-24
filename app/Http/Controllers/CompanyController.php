@@ -94,7 +94,22 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, int $id)
     {
         $company = Company::findOrFail($id);
-        $company->update($request->validated());
+        // companyテーブルの更新対象フィールドを明示的に指定
+        $companyData = $request->only([
+            'status',
+            'address',
+            'phone_number',
+            'email',
+            'corporate_philosophy',
+            'ceo_message',
+            'salary',
+            'job_type',
+            'work_hours',
+            'work_location',
+            'first_assignment'
+        ]);
+
+        $company->update($companyData);
 
         if ($company->application) {
             $company->application->update([
