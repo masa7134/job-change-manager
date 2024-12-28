@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NDWX1WNW0X"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-NDWX1WNW0X');
+        </script>
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        {{-- SEO用の基本的なメタタグ --}}
+        <meta name="description" content="転職活動の進捗を簡単に一元管理。履歴書・職務経歴書の作成状況、面接日程、選考状況をシンプルに管理できる無料Webアプリ。Googleアカウントでログインしてすぐに使えます。">
+        <meta name="keywords" content="転職マネージャー,転職管理,転職進捗,面接管理,転職活動,就活管理">
+        <meta name="author" content="転職マネージャー">
+
+        {{-- タイトル設定 --}}
+        <title>@yield('title', '転職マネージャー - 転職活動の進捗を一元管理')</title>
+
+        {{-- canonical URL（公式なurlを指定） --}}
+        <link rel="canonical" href="{{ url()->current() }}">
+
+        {{-- OGPタグの追加(SNS用) --}}
+        <meta property="og:title" content="転職マネージャー - 転職活動の進捗を一元管理">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:image" content="{{ asset('images/ogp.png' )}}">
+        <meta property="og:site_name" content="転職マネージャー">
+        <meta property="og:description" content="転職活動の進捗を簡単に一元管理。履歴書・職務経歴書の作成状況、面接日程、選考状況をシンプルに管理できる無料Webアプリ。">
+
+        {{-- Twitter Card --}}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="転職マネージャー">
+        <meta name="twitter:description" content="転職活動の進捗を簡単に一元管理。履歴書・職務経歴書の作成状況、面接日程、選考状況をシンプルに管理できる無料Webアプリ。">
 
         {{-- ファビコン --}}
         <link rel="icon" type="image/png" href="{{ asset('favicon.png ')}}">
