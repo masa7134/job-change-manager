@@ -19,6 +19,28 @@
         <meta name="keywords" content="転職マネージャー,転職管理,転職進捗,面接管理,転職活動,就活管理">
         <meta name="author" content="転職マネージャー">
 
+        {{-- 構造化データ (JSON-LD形式) --}}
+        <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "WebApplication",
+                "name": "転職マネージャー",
+                "description": "転職活動の進捗を簡単に一元管理。履歴書・職務経歴書の作成状況、面接日程、選考状況をシンプルに管理できる無料Webアプリ。",
+                "url": "https://job-change-manager.com",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "All",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "JPY"
+                },
+                "creator": {
+                    "@type": "Person",
+                    "name": "転職マネージャー開発者"
+                }
+            }
+            </script>
+
         {{-- タイトル設定 --}}
         <title>@yield('title', '転職マネージャー - 転職活動の進捗を一元管理')</title>
 
@@ -39,7 +61,7 @@
         <meta name="twitter:description" content="転職活動の進捗を簡単に一元管理。履歴書・職務経歴書の作成状況、面接日程、選考状況をシンプルに管理できる無料Webアプリ。">
 
         {{-- ファビコン --}}
-        <link rel="icon" type="image/png" href="{{ asset('favicon.png ')}}">
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
         <!-- FlatpickrのCSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
