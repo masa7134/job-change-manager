@@ -28,6 +28,7 @@ class Company extends Model
         'work_hours',
         'work_location',
         'first_assignment',
+        'memo',
     ];
 
     protected $casts = [
