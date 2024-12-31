@@ -107,6 +107,11 @@
                         <label class="block font-semibold">入社後の業務内容</label>
                         <textarea name="first_assignment" class="border w-full">{{ $company->first_assignment }}</textarea>
                     </div>
+                    {{-- メモ --}}
+                    <div class="mb-4">
+                        <label class="block font-semibold">メモ</label>
+                        <textarea name="memo" class="border w-full">{{ $company->memo }}</textarea>
+                    </div>
                     {{-- 履歴書 --}}
                     <div class="mb-4 flex items-center gap-4">
                         <label class="block font-semibold">履歴書:</label>

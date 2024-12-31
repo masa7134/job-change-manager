@@ -44,6 +44,7 @@ class CompanyRequest extends FormRequest
             'work_hours' => 'nullable|string|max:50',
             'work_location' => 'nullable|string|max:255',
             'first_assignment' => 'nullable|string|max:255',
+            'memo' => 'nullable|string',
         ];
     }
 
@@ -67,6 +68,7 @@ class CompanyRequest extends FormRequest
             'work_hours' => '勤務時間',
             'work_location' => '勤務地',
             'first_assignment' => '入社後最初の業務',
+            'memo' => 'メモ',
         ];
     }
 
