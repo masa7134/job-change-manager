@@ -13,10 +13,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="robots" content="index, follow">
+        <meta name="googlebot" content="index, follow">
+        <meta http-equiv="content-language" content="ja">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
 
         {{-- SEO用の基本的なメタタグ --}}
         <meta name="description" content="転職活動の進捗を簡単に一元管理。履歴書・職務経歴書の作成状況、面接日程、選考状況をシンプルに管理できる無料Webアプリ。Googleアカウントでログインしてすぐに使えます。">
-        <meta name="keywords" content="転職マネージャー,転職管理,転職進捗,面接管理,転職活動,就活管理">
+        <meta name="keywords" content="転職マネージャー,転職管理,転職進捗管理,面接管理,転職活動支援,就活管理,転職支援ツール,転職スケジュール管理,選考管理">
         <meta name="author" content="転職マネージャー">
 
         {{-- 構造化データ (JSON-LD形式) --}}
@@ -37,7 +43,9 @@
                 "creator": {
                     "@type": "Person",
                     "name": "転職マネージャー開発者"
-                }
+                },
+                "keywords": "転職管理,転職進捗管理,面接管理,転職活動支援",
+                "category": "転職支援ツール"
             }
             </script>
 
@@ -54,6 +62,9 @@
         <meta property="og:image" content="{{ asset('images/ogp.png' )}}">
         <meta property="og:site_name" content="転職マネージャー">
         <meta property="og:description" content="転職活動の進捗を簡単に一元管理。履歴書・職務経歴書の作成状況、面接日程、選考状況をシンプルに管理できる無料Webアプリ。">
+        <meta property="og:locale" content="ja_JP">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
 
         {{-- Twitter Card --}}
         <meta name="twitter:card" content="summary_large_image">
