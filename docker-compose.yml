@@ -7,6 +7,7 @@ services:
                 WWWGROUP: ${WWWGROUP:-1000}
                 WWWUSER: ${WWWUSER:-1000}
         image: sail-8.2/app
+        platform: linux/arm64/v8  # 追加
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -27,6 +28,7 @@ services:
             - mailpit
     mysql:
         image: 'mysql/mysql-server:8.0'
+        platform: linux/arm64/v8  # 追加
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
@@ -51,6 +53,7 @@ services:
             timeout: 5s
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
+        platform: linux/amd64  # 追加
         depends_on:
             - mysql
         ports:
@@ -63,6 +66,7 @@ services:
             - sail
     mailpit:
         image: 'axllent/mailpit:latest'
+        platform: linux/arm64/v8  # 追加
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
