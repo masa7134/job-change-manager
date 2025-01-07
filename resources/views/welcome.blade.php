@@ -65,9 +65,9 @@
             </div>
             {{-- 説明画像 --}}
             <div class="mt-6 mx-auto px-4" style="max-width: 1000px">
-                <h3 class="text-2xl text-gray-800 mb text-center">
+                <p class="text-gray-800 mb text-center">
                     使用例
-                </h3>
+                </p>
                 <img src="{{ asset('images/explanatoryImage.png')}}" alt=""
                     alt="転職マネージャーの使用例"
                     class="w-full h-auto rounded-lg shadow-lg ">
