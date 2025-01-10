@@ -51,14 +51,20 @@ class Interview extends Model
         return $this->{$column}->text();// Enumのテキストを返す
     }
 
-    // 既に登録されているの面接を取得
-    public function getPreviousInterviews()
+    // 既に登録されているの面接を取得(引数は除外するIDとする、初期値はnull)
+    public function getPreviousInterviews($excludeId = null)
     {
-        return $this->application
+        $query = $this->application
             ->interviews()
             ->whereNotNull('interview_date') // 日付が設定されている面接
-            ->orderBy('interview_date', 'desc')
-            ->get();
+            ->orderBy('interview_date', 'desc');
+
+        // 特定の面接ID(編集中のID)を除外
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->get();
     }
 
     public function __construct(array $attributes = [])
