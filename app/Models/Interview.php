@@ -51,6 +51,16 @@ class Interview extends Model
         return $this->{$column}->text();// Enumのテキストを返す
     }
 
+    // 既に登録されているの面接を取得
+    public function getPreviousInterviews()
+    {
+        return $this->application
+            ->interviews()
+            ->whereNotNull('interview_date') // 日付が設定されている面接
+            ->orderBy('interview_date', 'desc')
+            ->get();
+    }
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
