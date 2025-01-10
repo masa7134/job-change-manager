@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\InterviewRound;
 use App\Models\Interview;
 
+use function PHPUnit\Framework\returnSelf;
+
 class InterviewRequest extends FormRequest
 {
     /**
@@ -35,7 +37,7 @@ class InterviewRequest extends FormRequest
             'content' => 'nullable|string',
         ];
 
-        // 面接日のバリデーションルール
+        // 面接日新規登録時のバリデーションルール
         if ($routeName === 'interview.store') {
             // 新規作成時は今日以降の日付のみ許可
             $rules['interview_date'] = [
@@ -58,14 +60,15 @@ class InterviewRequest extends FormRequest
                     // 既存の面接日と比較
                     foreach ($existingInterviews as $existingInterview) {
                         // 入力値が既存の面接日より前の日付ならエラー($failを実行)
-                        if ($value < $existingInterview->interview_date) {
-                            $fail('面接日は既存の面接日 (' . $existingInterview->interview_date . ') より前の日付は指定できません。 ');
+                        if ($value <= $existingInterview->interview_date) {
+                            $fail('面接日は既存の面接日 (' . $existingInterview->interview_date . ') 以前の日付は指定できません。 ');
                             break; // 一つでも違反があれば中断
                         }
                     }
                 }
             ];
 
+            // 面接ラウンドのルール
             $rules['interview_round'] = [
                 'required',
                 'integer',
@@ -83,9 +86,34 @@ class InterviewRequest extends FormRequest
                     }
                 }
             ];
+        // 更新時のルール
         } else {
-            // 更新時は過去の日付も許可
-            $rules['interview_date'] = 'nullable|date';
+            $rules['interview_date'] = [
+                'nullable',
+                'date',
+                // カスタムバリデーション関数
+                function($attribute, $value, $fail) {
+                    if (!$value) return;
+
+                    // アプリケーションIDを取得するための面接インスタンス作成
+                    $interview = new Interview([
+                        // 現在のリクエストからアプリケーションIDを取得
+                        'application_id' => $this->get('application_id')
+                    ]);
+
+                    // 現在のアプリケーションIDの既存のインタビューを取得
+                    $existingInterviews = $interview->getPreviousInterviews($this->route('interview'));
+
+                    // 既存の面接日と比較
+                    foreach ($existingInterviews as $existingInterview) {
+                        // 入力値が既存の面接日より前の日付ならエラー($failを実行)
+                        if ($value <= $existingInterview->interview_date) {
+                            $fail('面接日は既存の面接日 (' . $existingInterview->interview_date . ') 以前の日付は指定できません。 ');
+                            break; // 一つでも違反があれば中断
+                        }
+                    }
+                }
+            ];
         }
 
         return $rules;
