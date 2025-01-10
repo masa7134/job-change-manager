@@ -112,6 +112,20 @@
                         <label class="block font-semibold">メモ</label>
                         <textarea name="memo" class="border w-full">{{ $company->memo }}</textarea>
                     </div>
+                    {{-- エントリーフォーム --}}
+                    <div class="mb-4 flex items-center gap-4">
+                        <label class="block font-semibold">エントリーフォーム:</label>
+                        <select name="entry_form_status" class="border border-gray-200 w-min dynamic-color">
+                            {{-- applicationStatuses 配列から resume ステータスを取得 --}}
+                            @foreach ($applicationStatuses['entry_form'] as $status)
+                                <option value="{{ $status->value }}"
+                                    class="{{ $status->color() }}"
+                                    {{ $company->application->entry_form_status->value === $status->value ? 'selected' : '' }}>
+                                        {{ $status->text() }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                     {{-- 履歴書 --}}
                     <div class="mb-4 flex items-center gap-4">
                         <label class="block font-semibold">履歴書:</label>
@@ -135,20 +149,6 @@
                                 <option value="{{ $status->value }}"
                                     class="{{ $status->color() }}"
                                     {{ $company->application->work_history_status->value === $status->value ? 'selected' : '' }}>
-                                        {{ $status->text() }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    {{-- エントリーフォーム --}}
-                    <div class="mb-4 flex items-center gap-4">
-                        <label class="block font-semibold">エントリーフォーム:</label>
-                        <select name="entry_form_status" class="border border-gray-200 w-min dynamic-color">
-                            {{-- applicationStatuses 配列から resume ステータスを取得 --}}
-                            @foreach ($applicationStatuses['entry_form'] as $status)
-                                <option value="{{ $status->value }}"
-                                    class="{{ $status->color() }}"
-                                    {{ $company->application->entry_form_status->value === $status->value ? 'selected' : '' }}>
                                         {{ $status->text() }}
                                 </option>
                             @endforeach
