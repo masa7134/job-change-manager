@@ -18,9 +18,9 @@
                             <thead>
                                 <tr class="bg-gray-100">
                                     <th class="text-center font-semibold px-4 py-2 border">企業名</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">エントリーフォーム</th>
                                     <th class="text-center font-semibold px-4 py-2 border">履歴書</th>
                                     <th class="text-center font-semibold px-4 py-2 border">職務経歴書</th>
-                                    <th class="text-center font-semibold px-4 py-2 border">エントリーフォーム</th>
                                     <th class="text-center font-semibold px-4 py-2 border">応募状況</th>
                                     <th class="text-center font-semibold px-4 py-2 border">面接</th>
                                 </tr>
@@ -37,6 +37,10 @@
                                                         {{ $company->name }}
                                                 </a>
                                             </td>
+                                            {{-- エントリーフォーム --}}
+                                            <td class="px-4 py-2 border {{ $company->application->entry_form_status->color() }}">
+                                                {{ $company->application->entry_form_status->text()  }}
+                                            </td>
                                             {{-- 履歴書 --}}
                                             <td class="px-4 py-2 border {{ $company->application->resume_status->color() }}">
                                                 {{ $company->application->resume_status->text() }}
@@ -44,10 +48,6 @@
                                             {{-- 職務経歴書 --}}
                                             <td class="px-4 py-2 border {{ $company->application->work_history_status->color() }}">
                                                 {{ $company->application->work_history_status->text()  }}
-                                            </td>
-                                            {{-- エントリーフォーム --}}
-                                            <td class="px-4 py-2 border {{ $company->application->entry_form_status->color() }}">
-                                                {{ $company->application->entry_form_status->text()  }}
                                             </td>
                                             {{-- 応募状況 --}}
                                             <td class="px-4 py-2 border {{ $company->application->application_status->color() }}">
