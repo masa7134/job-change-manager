@@ -30,7 +30,7 @@
                     {{-- ステータス --}}
                     <div>
                         <h2 class="text-center text-muted mb-4 ">
-                            <select name="status" class="border border-gray-200 min-w-min text-center dynamic-color">
+                            <select name="status" class="border border-transparent min-w-min text-center dynamic-color hover:border-gray-300 transition-all duration-200">
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status->value }}"
                                         class="{{ $status->color() }}"
@@ -58,64 +58,64 @@
                         </div>
                     @endif
                     {{-- 住所 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">住所</label>
                         <input type="text" name="address" value="{{ old('address', $company->address) }}" class="border w-full">
                     </div>
                     {{-- 電話番号 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">電話番号</label>
                         <input type="text" name="phone_number" value="{{ old('phone_number', $company->phone_number) }}" class="border w-full">
                     </div>
                     {{-- メールアドレス --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">メールアドレス</label>
                         <input type="email" name="email" value="{{ old('email', $company->email) }}" class="border w-full">
                     </div>
                     {{-- 企業理念 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">企業理念</label>
                         <textarea name="corporate_philosophy" class="border w-full">{{ old('corporate_philosophy', $company->corporate_philosophy) }}</textarea>
                     </div>
                     {{-- 代表者の言葉 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">代表者の言葉</label>
                         <textarea name="ceo_message" class="border w-full">{{ $company->ceo_message }}</textarea>
                     </div>
                     {{-- 職種 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">職種</label>
                         <input type="text" name="job_type" value="{{ old('job_type', $company->job_type) }}" class="border w-full">
                     </div>
                     {{-- 給料 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">給料</label>
                         <input type="text" name="salary" value="{{ old('salary', $company->salary) }}" class="border w-full">
                     </div>
                     {{-- 勤務時間 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">勤務時間</label>
                         <input type="text" name="work_hours" value="{{ old('work_hours', $company->work_hours) }}" class="border w-full">
                     </div>
                     {{-- 勤務地 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">勤務地</label>
                         <input type="text" name="work_location" value="{{ old('work_location', $company->work_location) }}" class="border w-full">
                     </div>
                     {{-- 入社後の業務内容 --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">入社後の業務内容</label>
                         <textarea name="first_assignment" class="border w-full">{{ $company->first_assignment }}</textarea>
                     </div>
                     {{-- メモ --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <label class="block font-semibold">メモ</label>
                         <textarea name="memo" class="border w-full">{{ $company->memo }}</textarea>
                     </div>
                     {{-- エントリーフォーム --}}
-                    <div class="mb-4 flex items-center gap-4">
+                    <div class="px-6 mb-4 flex items-center gap-4">
                         <label class="block font-semibold">エントリーフォーム:</label>
-                        <select name="entry_form_status" class="border border-gray-200 w-min dynamic-color">
+                        <select name="entry_form_status" class="border border-transparent w-min dynamic-color hover:border-gray-300 transition-all duration-200">
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['entry_form'] as $status)
                                 <option value="{{ $status->value }}"
@@ -127,9 +127,9 @@
                         </select>
                     </div>
                     {{-- 履歴書 --}}
-                    <div class="mb-4 flex items-center gap-4">
+                    <div class="px-6 mb-4 flex items-center gap-4">
                         <label class="block font-semibold">履歴書:</label>
-                        <select name="resume_status" class="border border-gray-200 w-min dynamic-color">
+                        <select name="resume_status" class="border border-transparent w-min dynamic-color hover:border-gray-300 transition-all duration-200">
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['resume'] as $status)
                                 <option value="{{ $status->value }}"
@@ -141,9 +141,9 @@
                         </select>
                     </div>
                     {{-- 職務経歴書 --}}
-                    <div class="mb-4 flex items-center gap-4">
+                    <div class="px-6 mb-4 flex items-center gap-4">
                         <label class="block font-semibold">職務経歴書:</label>
-                        <select name="work_history_status" class="border border-gray-200 w-min dynamic-color">
+                        <select name="work_history_status" class="border border-transparent w-min dynamic-color hover:border-gray-300 transition-all duration-200">
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['work_history'] as $status)
                                 <option value="{{ $status->value }}"
@@ -155,9 +155,9 @@
                         </select>
                     </div>
                     {{-- 応募状況 --}}
-                    <div class="mb-4 flex items-center gap-4">
+                    <div class="px-6 mb-4 flex items-center gap-4">
                         <label class="block font-semibold">応募状況:</label>
-                        <select name="application_status" class="border border-gray-200 w-min dynamic-color">
+                        <select name="application_status" class="border border-transparent w-min dynamic-color hover:border-gray-300 transition-all duration-200">
                             {{-- applicationStatuses 配列から resume ステータスを取得 --}}
                             @foreach ($applicationStatuses['application'] as $status)
                                 <option value="{{ $status->value }}"
@@ -169,7 +169,7 @@
                         </select>
                     </div>
                     {{-- 面接セクター --}}
-                    <div class="mb-4">
+                    <div class="px-6 mb-4">
                         <table class="w-full border-collapse text-center">
                             <thead>
                                 <tr class="bg-gray-100">
