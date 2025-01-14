@@ -19,7 +19,7 @@ class CompanyController extends Controller
     // 企業一覧表示
     public function index()
     {
-        $companies = Company::where('user_id', auth()->id())
+        $companies = Company::where('user_id', auth()->id)
             ->sortByProgress()
             // Eager Loadingし、コールバック関数でinterviewsの絞り込み
             ->with(['application.interviews' => function($query) {
@@ -57,7 +57,7 @@ class CompanyController extends Controller
         $company = Company::create([
             'name' => $request->name,
             'url' => $request->url,
-            'user_id' => auth()->id(),
+            'user_id' => auth()->id,
         ]);
 
         // アプリケーション関連データも同時に作成しcompanyに関連づけ
@@ -121,7 +121,7 @@ class CompanyController extends Controller
     public function getAllCompanies(Request $request)
     {
         // 全企業取得するクエリ
-        $query = Company::where('user_id', auth()->id())
+        $query = Company::where('user_id', auth()->id)
             ->with('application.interviews');
 
         // status_filterパラメーターが存在したらフィルタリング、存在しなければ全件表示
