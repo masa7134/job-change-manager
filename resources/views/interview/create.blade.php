@@ -72,10 +72,20 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            flatpickr("#interview_date", {
-                dateFormat: "Y-m-d",
+            // 今日の日付の9:00に設定する
+            const today = new Date();
+            today.setHours(9, 0, 0, 0);  // 9:00:00に設定
+
+            flatpickr("#interview_datetime", {
+                dateFormat: "Y-m-d H:i",  // 時間も表示されるようにフォーマットを修正
+                enableTime: true,
+                time_24hr: true,
+                minuteIncrement: 10,
                 allowInput: true,
-                locale:"ja"
+                locale: "ja",
+                minDate: new Date(),
+                minTime: "09:00",    // 選択可能な最早時間
+                maxTime: "18:00",    // 選択可能な最遅時間
             });
         });
     </script>

@@ -66,12 +66,6 @@ class InterviewController extends Controller
     public function store(InterviewRequest $request)
     {
         $validated = $request->validated();
-
-        //interview_roundがnullでないことを確認
-        if (is_null($validated['interview_round'])) {
-            return redirect()->back()->withInput()->withErrors(['interview_round' => '面接ラウンドは必須です']);
-        }
-
         $companyId = $request->input('company_id');
         $company = Company::findOrFail($companyId);
         $application = $company->application;

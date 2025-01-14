@@ -9,12 +9,42 @@
             </a>
         </p>
     </x-slot>
-
+    {{-- main --}}
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form action="{{ route('interview.update', ['interview' => $interview->id ])}}" method="POST">
                     @csrf
+                    <div class="flex items-center justify-between w-full">
+                        {{-- 前の面接へのリンク --}}
+                        @if ($interview->previousInterview())
+                            <div class="flex justify-start w-full">
+                                <a href="{{ route('interview.edit', $interview->previousInterview()->id) }}"
+                                    class="text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center">
+                                    <span class="inline-flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                        </svg>
+                                        前の面接へ
+                                    </span>
+                                </a>
+                            </div>
+                        @endif
+                        {{-- 次の面接へのリンク --}}
+                        @if ($interview->nextInterview())
+                            <div class="flex justify-end w-full">
+                                <a href="{{ route('interview.edit', $interview->nextInterview()->id) }}"
+                                    class="text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center">
+                                    <span class="inline-flex items-center">
+                                        次の面接へ
+                                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        @endif
+                    </div>
                     <div class="flex justify-center">
                         {{-- 企業名 --}}
                         <div class="p-6 text-gray-900">
@@ -62,10 +92,20 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            flatpickr("#interview_date", {
-                dateFormat: "Y-m-d",
+            // 今日の日付の9:00に設定する
+            const today = new Date();
+            today.setHours(9, 0, 0, 0);  // 9:00:00に設定
+
+            flatpickr("#interview_datetime", {
+                dateFormat: "Y-m-d H:i",  // 時間も表示されるようにフォーマットを修正
+                enableTime: true,
+                time_24hr: true,
+                minuteIncrement: 10,
                 allowInput: true,
-                locale:"ja"
+                locale: "ja",
+                minDate: new Date(),
+                minTime: "09:00",    // 選択可能な最早時間
+                maxTime: "18:00",    // 選択可能な最遅時間
             });
         });
     </script>
