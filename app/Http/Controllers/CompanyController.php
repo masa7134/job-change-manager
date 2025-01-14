@@ -26,7 +26,7 @@ class CompanyController extends Controller
                 // 未来の予定面接を優先して取得
                 $query->where(function($q) {
                     $q->where('interview_status', InterviewStatus::Schedule)
-                        ->where('interview_date', '>=', now()->format('Y-m-d'));
+                        ->where('interview_datetime', '>=', now()->format('Y-m-d'));
                 })
                 //　予定面接がない場合は実施済みの最新を取得
                 ->orWhere(function($q) {
@@ -37,7 +37,7 @@ class CompanyController extends Controller
                     InterviewStatus::Schedule,
                     InterviewStatus::Implemented,
                 ])
-                ->orderBy('interview_date', 'asc')// 面接日が近い順で表示
+                ->orderBy('interview_datetime', 'asc')// 面接日が近い順で表示
                 ->take(1);// １件のみ取得
             }])
             ->paginate(20);

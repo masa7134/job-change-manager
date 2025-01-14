@@ -108,7 +108,7 @@ class InterviewController extends Controller
         $company = $interview->application->company;
 
         $interview->update([
-            'interview_date' => $request->interview_date,
+            'interview_datetime' => $request->interview_datetime,
             'interview_status' => $request->interview_status,
             'preparation_status' => $request->preparation_status,
             'content' => $request->content,

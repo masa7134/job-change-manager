@@ -189,7 +189,7 @@
                                                         {{ $interview['interview_round']->text() }}
                                                 </a>
                                             </td>
-                                            <td class="px-4 py-2 border">{{ $interview['interview_date']}}</td>
+                                            <td class="px-4 py-2 border">{{ $interview['interview_datetime']}}</td>
                                             <td class="px-4 py-2 border {{ $interview['interview_status']->color() }}">
                                                 {{ $interview['interview_status']->text() }}
                                             </td>
