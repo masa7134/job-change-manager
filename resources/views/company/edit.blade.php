@@ -174,7 +174,7 @@
                             <thead>
                                 <tr class="bg-gray-100">
                                     <th class="text-center font-semibold px-4 py-2 border">面接</th>
-                                    <th class="text-center font-semibold px-4 py-2 border">面接日</th>
+                                    <th class="text-center font-semibold px-4 py-2 border">面接日時</th>
                                     <th class="text-center font-semibold px-4 py-2 border">ステータス</th>
                                     <th class="text-center font-semibold px-4 py-2 border">対策状況</th>
                                 </tr>
@@ -189,7 +189,7 @@
                                                         {{ $interview['interview_round']->text() }}
                                                 </a>
                                             </td>
-                                            <td class="px-4 py-2 border">{{ $interview['interview_datetime']}}</td>
+                                            <td class="px-4 py-2 border">{{ $interview['interview_datetime']->format('Y-m-d H:i') }}</td>
                                             <td class="px-4 py-2 border {{ $interview['interview_status']->color() }}">
                                                 {{ $interview['interview_status']->text() }}
                                             </td>
