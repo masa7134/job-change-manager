@@ -8,11 +8,11 @@
     <div class="flex justify-center">
         {{-- 面接日 --}}
         <div class="p-6 text-gray-900">
-            <input type="text" id="interview_datetime" name="interview_datetime" autocomplete="off" value="{{ old('interview_datetime', $interview->interview_datetime) }}" class="border border-gray-200" placeholder="面接日を選択">
+            <input type="text" id="interview_datetime" name="interview_datetime" autocomplete="off" value="{{ old('interview_datetime', $interview->interview_datetime) }}" class="border border-transparent border-gray-200 hover:border-gray-300 transition-all duration-200" placeholder="面接日を選択">
         </div>
         {{-- インタビューステータス --}}
         <div class="p-6 text-gray-900">
-            <select name="interview_status" class="border border-gray-200 w-min dynamic-color">
+            <select name="interview_status" class="border border-transparent border-gray-200 w-min dynamic-color hover:border-gray-300 transition-all duration-200">
                 @foreach ($interviewStatuses['interview_status'] as $status)
                     <option value="{{ $status->value }}"
                         class="{{ $status->color() }}"
@@ -26,7 +26,7 @@
     {{-- 面接対策状況 --}}
     <div class="mb-4 flex justify-center items-center gap-4">
         <label class="block font-semibold">面接対策状況:</label>
-        <select name="preparation_status" class="border border-gray-200 w-min dynamic-color">
+        <select name="preparation_status" class="border border-transparent border-gray-200 w-min dynamic-color hover:border-gray-300 transition-all duration-200">
             {{-- interviewStatuses配列から preparationステータスを取得 --}}
             @foreach ($interviewStatuses['preparation_status'] as $status)
                 <option value="{{ $status->value }}"
