@@ -27,7 +27,7 @@
                         {{-- 面接ラウンド --}}
                         <div class="p-6 text-gray-900">
                             <h1 class="font-bold text-center ztext-2xl text-gray-800 leading-tight mb-1">
-                                <select name="interview_round" class="border border-gray-200 w-min" required>
+                                <select name="interview_round" class="border border-transparent w-min hover:border-gray-300 transition-all duration-200" required>
                                     @foreach ($interviewStatuses['interview_round'] as $status)
                                         <option value="{{ $status->value }}"
                                             {{ old('interview_round',$interview->interview_round->value) == $status->value ? 'selected' : '' }}>

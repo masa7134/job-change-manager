@@ -14,6 +14,7 @@ use App\Models\Interview;
 use App\Http\Requests\CompanyRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class CompanyController extends Controller
 {
     // 企業一覧表示

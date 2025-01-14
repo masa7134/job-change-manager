@@ -52,6 +52,15 @@ class Interview extends Model
         return $this->{$column}->text();// Enumのテキストを返す
     }
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        if (isset($attributes['interview_round'])) {
+            $this->attributes['interview_round'] = $attributes['interview_round'];
+        }
+    }
+
     // 【バリデーション用】既に登録されているの面接を取得(引数は除外するIDとする、初期値はnull)
     public function getPreviousInterviews($excludeId = null)
     {
@@ -81,17 +90,8 @@ class Interview extends Model
     public function nextInterview()
     {
         return $this->application->interviews()
-        ->where('interview_round', '>', $this->interview_round->value)
-        ->orderBy('interview_round', 'asc')
-        ->first();
-    }
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        if (isset($attributes['interview_round'])) {
-            $this->attributes['interview_round'] = $attributes['interview_round'];
-        }
+            ->where('interview_round', '>', $this->interview_round->value)
+            ->orderBy('interview_round', 'asc')
+            ->first();
     }
 }
