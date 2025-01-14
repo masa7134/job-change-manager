@@ -223,7 +223,7 @@
                         </form>
                     @else
                         {{-- 次の面接へ --}}
-                        <form action="{{ route('interview.create') }}" method="GET">
+                        {{-- <form action="{{ route('interview.create') }}" method="GET">
                             @csrf
                             @php
                                 $interviews = $company->application->interviews;
@@ -235,7 +235,7 @@
                             <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
                                 次の面接へ
                             </button>
-                        </form>
+                        </form> --}}
                     @endif
                 </div>
                 <div class="p-6 flex justify-between">
