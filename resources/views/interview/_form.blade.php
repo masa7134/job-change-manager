@@ -8,11 +8,11 @@
     <div class="flex justify-center">
         {{-- 面接日 --}}
         <div class="p-6 text-gray-900">
-            <input type="text" id="interview_date" name="interview_date" autocomplete="off" value="{{ old('interview_date', $interview->interview_date) }}" class="border border-gray-200" placeholder="面接日を選択">
+            <input type="text" id="interview_datetime" name="interview_datetime" autocomplete="off" value="{{ old('interview_datetime', $interview->interview_datetime) }}" class="border border-transparent hover:border-gray-300 transition-all duration-200" placeholder="面接日を選択">
         </div>
         {{-- インタビューステータス --}}
         <div class="p-6 text-gray-900">
-            <select name="interview_status" class="border border-gray-200 w-min dynamic-color">
+            <select name="interview_status" class="border border-transparent w-min dynamic-color hover:border-gray-300 transition-all duration-200">
                 @foreach ($interviewStatuses['interview_status'] as $status)
                     <option value="{{ $status->value }}"
                         class="{{ $status->color() }}"
@@ -26,7 +26,7 @@
     {{-- 面接対策状況 --}}
     <div class="mb-4 flex justify-center items-center gap-4">
         <label class="block font-semibold">面接対策状況:</label>
-        <select name="preparation_status" class="border border-gray-200 w-min dynamic-color">
+        <select name="preparation_status" class="border border-transparent border-gray-200 w-min dynamic-color hover:border-gray-300 transition-all duration-200">
             {{-- interviewStatuses配列から preparationステータスを取得 --}}
             @foreach ($interviewStatuses['preparation_status'] as $status)
                 <option value="{{ $status->value }}"
@@ -38,7 +38,7 @@
         </select>
     </div>
     {{-- 内容 --}}
-    <div class="mb-4">
+    <div class="px-4 py-2">
         <label class="block font-semibold">内容</label>
         <textarea name="content" class="border w-full h-40">{{ $interview->content }}</textarea>
     </div>
@@ -48,8 +48,8 @@
             {{ $submitButtonText }}
         </button>
 </form>
-        @if ($interview->exists)
-            {{-- 次の面接作成ボタン --}}
+        {{-- 次の面接作成ボタン --}}
+        @if (!$interview->nextInterview() && $interview->interview_status->value === \App\Enums\InterviewStatus::Implemented)
             <form action="{{ route('interview.create') }}" method="GET">
                 @csrf
                 <input type="hidden" name="company_id" value="{{ $company->id }}">
@@ -58,7 +58,9 @@
                     次の面接へ
                 </button>
             </form>
-            {{-- 削除ボタン --}}
+        @endif
+        {{-- 削除ボタン --}}
+        @if ($interview->exists)
             <form action="{{ route('interview.destroy', ['company' => $company->id, 'interview' => $interview->id]) }}" method="POST" id="delete-form">
                 @csrf
                 @method('DELETE')

@@ -14,7 +14,7 @@ class Interview extends Model
 
     protected $fillable = [
         'application_id',
-        'interview_date',
+        'interview_datetime',
         'interview_round',
         'interview_status',
         'preparation_status',
@@ -22,6 +22,7 @@ class Interview extends Model
     ];
 
     protected $casts = [
+        'interview_datetime' => 'datetime',
         'interview_round' => InterviewRound::class,
         'interview_status' => InterviewStatus::class,
         'preparation_status' => PreparationStatus::class,
@@ -51,13 +52,22 @@ class Interview extends Model
         return $this->{$column}->text();// Enumのテキストを返す
     }
 
-    // 既に登録されているの面接を取得(引数は除外するIDとする、初期値はnull)
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        if (isset($attributes['interview_round'])) {
+            $this->attributes['interview_round'] = $attributes['interview_round'];
+        }
+    }
+
+    // 【バリデーション用】既に登録されているの面接を取得(引数は除外するIDとする、初期値はnull)
     public function getPreviousInterviews($excludeId = null)
     {
         $query = $this->application
             ->interviews()
-            ->whereNotNull('interview_date') // 日付が設定されている面接
-            ->orderBy('interview_date', 'desc');
+            ->whereNotNull('interview_datetime') // 日付が設定されている面接
+            ->orderBy('interview_datetime', 'desc');
 
         // 特定の面接ID(編集中のID)を除外
         if ($excludeId) {
@@ -67,12 +77,21 @@ class Interview extends Model
         return $query->get();
     }
 
-    public function __construct(array $attributes = [])
+    // 【ナビゲーションリンク用】メソッド名の頭に動詞はつけるべきですか？
+    public function previousInterview()
     {
-        parent::__construct($attributes);
+        return $this->application->interviews()
+            ->where('interview_round', '<', $this->interview_round->value)
+            ->orderBy('interview_round', 'desc')
+            ->first();
+    }
 
-        if (isset($attributes['interview_round'])) {
-            $this->attributes['interview_round'] = $attributes['interview_round'];
-        }
+    // 【ナビゲーションリンク用】メソッド名の頭に動詞はつけるべきですか？
+    public function nextInterview()
+    {
+        return $this->application->interviews()
+            ->where('interview_round', '>', $this->interview_round->value)
+            ->orderBy('interview_round', 'asc')
+            ->first();
     }
 }

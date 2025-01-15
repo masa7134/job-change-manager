@@ -18,7 +18,7 @@ class InterviewSeeder extends Seeder
             'application_id' => 5,
             'interview_round' => InterviewRound::First,
             'interview_status' => InterviewStatus::Schedule,
-            'interview_date' => Carbon::now()->addDays(3),
+            'interview_datetime' => Carbon::now()->addDays(3),
             'preparation_status' => false,
             'content' => '一次面接の準備を進める',
         ]);
@@ -29,7 +29,7 @@ class InterviewSeeder extends Seeder
             'application_id' => 6,
             'interview_round' => InterviewRound::First,
             'interview_status' => InterviewStatus::Implemented,
-            'interview_date' => Carbon::now()->subDays(3),
+            'interview_datetime' => Carbon::now()->subDays(3),
             'preparation_status' => true,
             'content' => '一次面接完了。良好な手応え。',
         ]);
@@ -38,7 +38,7 @@ class InterviewSeeder extends Seeder
             'application_id' => 6,
             'interview_round' => InterviewRound::Second,
             'interview_status' => InterviewStatus::Schedule,
-            'interview_date' => Carbon::now()->addDays(7),
+            'interview_datetime' => Carbon::now()->addDays(7),
             'preparation_status' => false,
             'content' => '二次面接の準備を開始する',
         ]);
@@ -49,7 +49,7 @@ class InterviewSeeder extends Seeder
             'application_id' => 7,
             'interview_round' => InterviewRound::First,
             'interview_status' => InterviewStatus::Implemented,
-            'interview_date' => Carbon::now()->subDays(5),
+            'interview_datetime' => Carbon::now()->subDays(5),
             'preparation_status' => true,
             'content' => '一次面接実施。不採用。',
         ]);
@@ -60,7 +60,7 @@ class InterviewSeeder extends Seeder
             'application_id' => 8,
             'interview_round' => InterviewRound::First,
             'interview_status' => InterviewStatus::Implemented,
-            'interview_date' => Carbon::now()->subDays(10),
+            'interview_datetime' => Carbon::now()->subDays(10),
             'preparation_status' => true,
             'content' => '一次面接完了。好印象。',
         ]);
@@ -69,7 +69,7 @@ class InterviewSeeder extends Seeder
             'application_id' => 8,
             'interview_round' => InterviewRound::Second,
             'interview_status' => InterviewStatus::Implemented,
-            'interview_date' => Carbon::now()->subDays(5),
+            'interview_datetime' => Carbon::now()->subDays(5),
             'preparation_status' => true,
             'content' => '二次面接完了。次は最終面接。',
         ]);
@@ -78,7 +78,7 @@ class InterviewSeeder extends Seeder
             'application_id' => 8,
             'interview_round' => InterviewRound::Third,
             'interview_status' => InterviewStatus::Schedule,
-            'interview_date' => Carbon::now()->addDays(5),
+            'interview_datetime' => Carbon::now()->addDays(5),
             'preparation_status' => false,
             'content' => '最終面接の準備を進める',
         ]);

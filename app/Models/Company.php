@@ -85,21 +85,21 @@ class Company extends Model
                     JOIN interviews i ON i.application_id = a.id
                     WHERE a.company_id = companies.id
                     AND i.interview_status = ' .InterviewStatus::Schedule . '
-                    AND i.interview_date >= CURRENT_DATE
+                    AND i.interview_datetime >= CURRENT_DATE
                 ) as has_upcoming_interview'),
                 // 最も近い面接予定日を取得
                 DB::raw('(
-                    SELECT MIN(i.interview_date)
+                    SELECT MIN(i.interview_datetime)
                     FROM applications a
                     JOIN interviews i ON i.application_id = a.id
                     WHERE a.company_id = companies.id
                     AND i.interview_status = ' .InterviewStatus::Schedule . '
-                    AND i.interview_date >= CURRENT_DATE
-                ) as next_interview_date'),
+                    AND i.interview_datetime >= CURRENT_DATE
+                ) as next_interview_datetime'),
             ])
             ->where('status', 0)  // 進行中を表す値（0）
             ->orderBy('has_upcoming_interview', 'desc')  // 面接予定があるものを優先
-            ->orderBy('next_interview_date', 'asc')  // 面接予定日が近い順
+            ->orderBy('next_interview_datetime', 'asc')  // 面接予定日が近い順
             ->orderBy('progress_count', 'desc')  // 進捗状況が進んでいるものを上位に
             ->orderBy('updated_at', 'desc');  // 同じ進捗状況の場合は更新日時降順
     }

@@ -66,12 +66,6 @@ class InterviewController extends Controller
     public function store(InterviewRequest $request)
     {
         $validated = $request->validated();
-
-        //interview_roundがnullでないことを確認
-        if (is_null($validated['interview_round'])) {
-            return redirect()->back()->withInput()->withErrors(['interview_round' => '面接ラウンドは必須です']);
-        }
-
         $companyId = $request->input('company_id');
         $company = Company::findOrFail($companyId);
         $application = $company->application;
@@ -114,7 +108,7 @@ class InterviewController extends Controller
         $company = $interview->application->company;
 
         $interview->update([
-            'interview_date' => $request->interview_date,
+            'interview_datetime' => $request->interview_datetime,
             'interview_status' => $request->interview_status,
             'preparation_status' => $request->preparation_status,
             'content' => $request->content,

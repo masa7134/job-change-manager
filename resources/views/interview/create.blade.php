@@ -27,7 +27,7 @@
                         {{-- 面接ラウンド --}}
                         <div class="p-6 text-gray-900">
                             <h1 class="font-bold text-center ztext-2xl text-gray-800 leading-tight mb-1">
-                                <select name="interview_round" class="border border-gray-200 w-min" required>
+                                <select name="interview_round" class="border border-transparent w-min hover:border-gray-300 transition-all duration-200" required>
                                     @foreach ($interviewStatuses['interview_round'] as $status)
                                         <option value="{{ $status->value }}"
                                             {{ old('interview_round',$interview->interview_round->value) == $status->value ? 'selected' : '' }}>
@@ -72,10 +72,20 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            flatpickr("#interview_date", {
-                dateFormat: "Y-m-d",
+            // 今日の日付の9:00に設定する
+            const today = new Date();
+            today.setHours(9, 0, 0, 0);  // 9:00:00に設定
+
+            flatpickr("#interview_datetime", {
+                dateFormat: "Y-m-d H:i",  // 時間も表示されるようにフォーマットを修正
+                enableTime: true,
+                time_24hr: true,
+                minuteIncrement: 10,
                 allowInput: true,
-                locale:"ja"
+                locale: "ja",
+                minDate: new Date(),
+                minTime: "09:00",    // 選択可能な最早時間
+                maxTime: "18:00",    // 選択可能な最遅時間
             });
         });
     </script>

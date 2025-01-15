@@ -37,11 +37,11 @@ class InterviewRequest extends FormRequest
             'content' => 'nullable|string',
         ];
 
-        // 面接日新規登録時のバリデーションルール
+        // 面接日時新規登録時のバリデーションルール
         if ($routeName === 'interview.store') {
             // 新規作成時は今日以降の日付のみ許可
-            $rules['interview_date'] = [
-                'nullable',
+            $rules['interview_datetime'] = [
+                'required',
                 'date',
                 'after_or_equal:today',
                 // カスタムルール(入力値が既存の面接より後であることを確認)
@@ -57,11 +57,11 @@ class InterviewRequest extends FormRequest
                     // 既存の面接データを取得
                     $existingInterviews = $interview->getPreviousInterviews();
 
-                    // 既存の面接日と比較
+                    // 既存の面接日時と比較
                     foreach ($existingInterviews as $existingInterview) {
-                        // 入力値が既存の面接日より前の日付ならエラー($failを実行)
-                        if ($value <= $existingInterview->interview_date) {
-                            $fail('面接日は既存の面接日 (' . $existingInterview->interview_date . ') 以前の日付は指定できません。 ');
+                        // 入力値が既存の面接日時より前の日付ならエラー($failを実行)
+                        if ($value <= $existingInterview->interview_datetime) {
+                            $fail('面接日時は既存の面接日時 (' . $existingInterview->interview_datetime . ') 以前の日付は指定できません。 ');
                             break; // 一つでも違反があれば中断
                         }
                     }
@@ -88,7 +88,7 @@ class InterviewRequest extends FormRequest
             ];
         // 更新時のルール
         } else {
-            $rules['interview_date'] = [
+            $rules['interview_datetime'] = [
                 'nullable',
                 'date',
                 // カスタムバリデーション関数
@@ -104,11 +104,11 @@ class InterviewRequest extends FormRequest
                     // 現在のアプリケーションIDの既存のインタビューを取得
                     $existingInterviews = $interview->getPreviousInterviews($this->route('interview'));
 
-                    // 既存の面接日と比較
+                    // 既存の面接日時と比較
                     foreach ($existingInterviews as $existingInterview) {
-                        // 入力値が既存の面接日より前の日付ならエラー($failを実行)
-                        if ($value <= $existingInterview->interview_date) {
-                            $fail('面接日は既存の面接日 (' . $existingInterview->interview_date . ') 以前の日付は指定できません。 ');
+                        // 入力値が既存の面接日時より前の日付ならエラー($failを実行)
+                        if ($value <= $existingInterview->interview_datetime) {
+                            $fail('面接日時は既存の面接日時 (' . $existingInterview->interview_datetime . ') 以前の日付は指定できません。 ');
                             break; // 一つでも違反があれば中断
                         }
                     }
@@ -127,7 +127,7 @@ class InterviewRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'interview_date' => '面接日',
+            'interview_datetime' => '面接日時',
             'interview_round' => '面接ラウンド',
             'content' => '内容',
         ];
@@ -140,9 +140,10 @@ class InterviewRequest extends FormRequest
             'interview_round.unique' => 'この面接ラウンドはすでに登録されています。',
             '*.string' => ':attribute は文字列でなければなりません。',
             '*.max' => ':attribute は最大 :max 文字までです。',
-            'interview_date.date' => ':attribute は有効な日付形式でなければなりません。',
-            'interview_date.after_or_equal' => ':attribute は今日以降の日付を指定してください。',
-            'interview_date.after_existing' => '面接日は既存の面接日より前の日付は指定できません',
+            'interview_datetime.required' => '面接日時を入力してください。',
+            'interview_datetime.date' => ':attribute は有効な日時でなければなりません。',
+            'interview_datetime.after_or_equal' => ':attribute は今日以降の日付を指定してください。',
+            'interview_datetime.after_existing' => '面接日時は既存の面接日時より前の日付は指定できません',
         ];
     }
 }

@@ -13,20 +13,21 @@ use App\Models\Application;
 use App\Models\Interview;
 use App\Http\Requests\CompanyRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
     // 企業一覧表示
     public function index()
     {
-        $companies = Company::where('user_id', auth()->id())
+        $companies = Company::where('user_id', Auth::id())
             ->sortByProgress()
             // Eager Loadingし、コールバック関数でinterviewsの絞り込み
             ->with(['application.interviews' => function($query) {
                 // 未来の予定面接を優先して取得
                 $query->where(function($q) {
                     $q->where('interview_status', InterviewStatus::Schedule)
-                        ->where('interview_date', '>=', now()->format('Y-m-d'));
+                        ->where('interview_datetime', '>=', now()->format('Y-m-d'));
                 })
                 //　予定面接がない場合は実施済みの最新を取得
                 ->orWhere(function($q) {
@@ -37,7 +38,7 @@ class CompanyController extends Controller
                     InterviewStatus::Schedule,
                     InterviewStatus::Implemented,
                 ])
-                ->orderBy('interview_date', 'asc')// 面接日が近い順で表示
+                ->orderBy('interview_datetime', 'asc')// 面接日が近い順で表示
                 ->take(1);// １件のみ取得
             }])
             ->paginate(20);
@@ -57,7 +58,7 @@ class CompanyController extends Controller
         $company = Company::create([
             'name' => $request->name,
             'url' => $request->url,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
         ]);
 
         // アプリケーション関連データも同時に作成しcompanyに関連づけ
@@ -121,7 +122,7 @@ class CompanyController extends Controller
     public function getAllCompanies(Request $request)
     {
         // 全企業取得するクエリ
-        $query = Company::where('user_id', auth()->id())
+        $query = Company::where('user_id', Auth::id())
             ->with('application.interviews');
 
         // status_filterパラメーターが存在したらフィルタリング、存在しなければ全件表示

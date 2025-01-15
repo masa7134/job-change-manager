@@ -60,7 +60,7 @@
                                                     $interview = $company->application->interviews->first();
                                                 @endphp
                                                     <div class="{{ $interview->interview_status->color() }}">
-                                                        {{ \Carbon\Carbon::parse($interview->interview_date)->format('m/d' )}}
+                                                        {{ \Carbon\Carbon::parse($interview->interview_datetime)->format('m/d' )}}
                                                         ({{ $interview->interview_round->text() }})
                                                     </div>
                                                 @else
