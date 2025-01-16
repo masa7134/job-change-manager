@@ -75,7 +75,7 @@
                                         <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-white bg-gray-500 border border-gray-300 cursor-default leading-5">{{ $page }}</span>
                                     </span>
                                 @else
-                                    <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:bg-gray-700 hover:text-white focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-gray-300 active:bg-gray-800 active:text-white transition ease-in-out duration-150" aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
+                                    <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:bg-gray-300 hover:text-white focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-gray-300 active:bg-gray-800 active:text-white transition ease-in-out duration-150" aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
                                         {{ $page }}
                                     </a>
                                 @endif
