@@ -74,18 +74,12 @@
                                 @endif
                             </tbody>
                         </table>
+                        {{-- ページネーションリンク --}}
+                        <div class="mt-6">
+                            {{ $companies->links()}}
+                        </div>
                     @endif
                 </div>
-            </div>
-            <div class="mt-6 flex space-x-4 justify-between">
-                <a href="{{ route('company.register') }}"
-                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
-                    企業を登録する
-                </a>
-                <a href="{{ route('company.all') }}"
-                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
-                    全企業を表示する
-                </a>
             </div>
         </div>
     </div>
