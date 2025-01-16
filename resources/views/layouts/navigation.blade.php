@@ -1,7 +1,9 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
+            
             <div class="flex items-center justify-between flex-1">
                 <!-- Logo -->
                 <div class="flex items-center">
@@ -9,7 +11,6 @@
                         <x-application-logo />
                     </a>
                 </div>
-
                 <!-- Navigation Links -->
                 <div class="flex items-center space-x-4">
                     <a href="{{ route('company.register') }}"
@@ -21,8 +22,6 @@
                         全企業を表示する
                     </a>
                 </div>
-
-
             </div>
 
             <!-- Settings Dropdown -->
