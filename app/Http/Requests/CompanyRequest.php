@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CompanyRequest extends FormRequest
 {
@@ -27,8 +28,25 @@ class CompanyRequest extends FormRequest
         // 新規登録時のルール
         if ($isStoreAction) {
             return [
-                'name' => 'required|string|max:100',
-                'url' => 'required|url|max:255',
+                'name' => [
+                    'required',
+                    'string',
+                    'max:100',
+                    // 同じ会社が登録されないようにチェック
+                    Rule::unique('companies')->where(function($query) {
+                        return $query->where('user_id', auth()->id());
+                    })
+                ],
+
+                'url' => [
+                    'required',
+                    'url',
+                    'max:255',
+                    // 同じURLが登録されないようにチェック
+                    Rule::unique('companies')->where(function($query) {
+                        return $query->where('user_id', auth()->id());
+                    })
+                ],
             ];
         }
 
