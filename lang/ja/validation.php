@@ -145,7 +145,7 @@ return [
     'string'               => ':Attributeには、文字列を指定してください。',
     'timezone'             => ':Attributeには、有効なタイムゾーンを指定してください。',
     'ulid'                 => ':Attributeは、有効なULIDである必要があります。',
-    'unique'               => '指定の:attributeは既に使用されています。',
+    'unique'               => '指定の:attributeは既に登録されています。',
     'uploaded'             => ':Attributeのアップロードに失敗しました。',
     'uppercase'            => ':Attributeは、大文字で入力してください。',
     'url'                  => ':Attributeは、有効なURL形式で指定してください。',
