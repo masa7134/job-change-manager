@@ -71,6 +71,7 @@
     <!-- FlatpickrのJavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        // DOMの読み込みが完了したら実行、DOMとはHTMLやCSSなどの要素のこと
         document.addEventListener('DOMContentLoaded', function () {
             // 今日の日付の9:00に設定する
             const today = new Date();
@@ -89,6 +90,7 @@
             });
         });
     </script>
+    {{-- テキストの色を変更するスクリプト --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             function updateSelectColor(select) {
@@ -114,12 +116,13 @@
         });
     </script>
     <script>
+        // 削除ボタンを押した時の確認メッセージ
         function confirmDelete() {
-            if (confirm('本当にこの面接情報を削除しますか？この操作は元に戻せません。')) {
-                const button =document.getElementById('delete-button');
+            if (confirm('本当にこの面接情報を削除しますか？この操作は元に戻せません。')) { // 確認ダイアログ
+                const button = document.getElementById('delete-button'); // 削除ボタン
                 button.disabled = true; // 二重送信防止
-                button.textContent = '処理中・・・';// 処理中メッセージ
-                document.getElementById('delete-form').submit();
+                button.textContent = '処理中・・・'; // 処理中メッセージ
+                document.getElementById('delete-form').submit(); // フォーム送信
             }
         }
     </script>
