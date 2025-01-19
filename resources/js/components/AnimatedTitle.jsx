@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+// AnimatedTitleコンポーネント
 const AnimatedTitle = () => {
     return (
         <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ rotate: -18000, scale: 0 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ duration: 3 }}      
             className="w-full flex justify-center items-center"
         >
             <a href="/">
