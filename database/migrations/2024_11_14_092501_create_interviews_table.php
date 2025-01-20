@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('application_id')->constrained('applications')->onDelete('cascade');
             $table->tinyInteger('interview_round')->nullable();
             $table->tinyInteger('interview_status')->default(0);
-            $table->date('interview_datetime')->nullable();
+            $table->date('interview_date')->nullable();
             $table->tinyInteger('preparation_status')->default(0);
             $table->text('content')->nullable();
             $table->timestamps();
