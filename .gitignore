@@ -1,6 +1,6 @@
 /.phpunit.cache
 /node_modules
-/public/build
+# /public/build　アニメーション実装のため、一時てきにコメントアウト
 /public/hot
 /public/storage
 /storage/*.key
