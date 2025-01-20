@@ -4,13 +4,9 @@ import { motion } from 'framer-motion';
 const AnimatedTitle = () => {
     return (
         <motion.div
-            initial={{ opacity: 0, y: -50 }}  // 開始位置をより上に
-            animate={{ opacity: 1, y: 0 }}    // 終了位置
-            transition={{ 
-                duration: 1.2,                // アニメーション時間を長く
-                type: "spring",               // バネのような動き
-                bounce: 0.3                   // バウンス効果
-            }}
+            initial={{ rotate: -18000, scale: 0 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ duration: 3 }}
             className="w-full flex justify-center items-center"
         >
             <a href="/">
