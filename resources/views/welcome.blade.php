@@ -23,14 +23,13 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @viteReactRefresh
+        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div class="w-full flex justify-center items-center">
-                <a href="/">
-                    <x-application-ogp/>
-                </a>
+            <div id="animated-title" class="w-full flex justify-center items-center">
+
             </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
