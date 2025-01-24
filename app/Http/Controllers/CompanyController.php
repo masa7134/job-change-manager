@@ -55,6 +55,20 @@ class CompanyController extends Controller
     // 企業データ保存
     public function store(CompanyRequest $request)
     {
+        // 企業名とURLが一致する企業が既に存在するかチェック
+        $existingCompany = Company::where([
+            'user_id' => Auth::id(),
+            'name' => $request->name,
+            'url' => $request->url,
+        ])->first();
+
+        // 既に同じ企業が登録されていた場合は企業詳細画面に遷移しエラーを返す
+        if ($existingCompany) {
+            return redirect()
+                ->route('company.edit', $existingCompany->id)
+                ->with('warning', '既に同じ企業が登録されています。');
+        }
+
         $company = Company::create([
             'name' => $request->name,
             'url' => $request->url,
