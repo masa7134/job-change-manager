@@ -21,11 +21,17 @@
                             {{ $company->name }}
                         </h1>
                         {{-- url --}}
-                        <div class="text-center">
+                        <div class="text-center mb-4">
                             <a href="{{ $company->url }}" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 {{ $company->url }}
                             </a>
                         </div>
+                        {{-- 既に同一企業が表示されているとき --}}
+                        @if (session('warning'))
+                            <div class="alert alert-warning text-center text-red-500">
+                                {{ session('warning')}}
+                            </div>
+                        @endif
                     </div>
                     {{-- ステータス --}}
                     <div>
