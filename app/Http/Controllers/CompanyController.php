@@ -17,34 +17,39 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    // 企業一覧表示
-    public function index()
-    {
-        $companies = Company::where('user_id', Auth::id())
-            ->sortByProgress()
-            // Eager Loadingし、コールバック関数でinterviewsの絞り込み
-            ->with(['application.interviews' => function($query) {
+// 企業一覧表示
+public function index()
+{
+    $companies = Company::where('user_id', Auth::id())
+        // ステータスの優先順位を指定
+        ->sortByProgress()
+        // Eager Loadingし、コールバック関数でinterviewsの絞り込み
+        ->with([
+            'application.interviews' => function ($query) {
                 // 未来の予定面接を優先して取得
-                $query->where(function($q) {
+                $query->where(function ($q) {
+                    // ステータスが予定の状態のものを取得
                     $q->where('interview_status', InterviewStatus::Schedule)
+                        // 未来の面接日時のものを取得
                         ->where('interview_datetime', '>=', now()->format('Y-m-d'));
                 })
-                //　予定面接がない場合は実施済みの最新を取得
-                ->orWhere(function($q) {
-                    $q->where('interview_status', InterviewStatus::Implemented);
-                })
-                // ステータスの優先順位を指定
-                ->orderByRaw("FIELD(interview_status, ?, ?) ASC", [
-                    InterviewStatus::Schedule,
-                    InterviewStatus::Implemented,
-                ])
-                ->orderBy('interview_datetime', 'asc')// 面接日が近い順で表示
-                ->take(1);// １件のみ取得
-            }])
-            ->paginate(20);
+                    // 予定面接がない場合は実施済みの最新を取得
+                    ->orWhere(function ($q) {
+                        $q->where('interview_status', InterviewStatus::Implemented);
+                    })
+                    // ステータスの優先順位を指定
+                    ->orderByRaw("FIELD(interview_status, ?, ?) ASC", [
+                        InterviewStatus::Schedule,
+                        InterviewStatus::Implemented,
+                    ])
+                    ->orderBy('interview_datetime', 'asc') // 面接日が近い順で表示
+                    ->take(1); // １件のみ取得
+            }
+        ])
+        ->paginate(20);
 
-        return view('dashboard', compact('companies'));
-    }
+    return view('dashboard', compact('companies'));
+}
 
     // 新規企業作成フォーム表示
     public function create()

@@ -31,7 +31,7 @@ class CompanyRequest extends FormRequest
                 'name' => 'required|string|max:100',
                 'url' => 'required|url|max:255',
             ];
-        }
+
 
         return [
             'status' => 'nullable',
